@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Principal Currencies by Age | The New Yorker</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Nunito+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #FFFFFF;
+  color: #1a1a1a;
+  font-family: 'Lora', Georgia, 'Times New Roman', serif;
+  font-size: 17px;
+  line-height: 1.85;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: #E52B2B;
+  color: #fff;
+}
+
+/* Masthead */
+.masthead {
+  text-align: center;
+  padding: 48px 20px 0;
+  border-bottom: 3px double #1a1a1a;
+  margin-bottom: 0;
+}
+
+.masthead-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 900;
+  font-style: italic;
+  font-size: clamp(2.2rem, 6vw, 3.8rem);
+  letter-spacing: 0.02em;
+  color: #1a1a1a;
+  margin-bottom: 4px;
+  line-height: 1.1;
+}
+
+.masthead-the {
+  display: block;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 400;
+  font-style: italic;
+  font-size: clamp(1rem, 2.5vw, 1.4rem);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #1a1a1a;
+  margin-bottom: -6px;
+}
+
+.masthead-red-bar {
+  width: 100%;
+  height: 4px;
+  background: #E52B2B;
+  margin-top: 20px;
+}
+
+/* Issue info bar */
+.issue-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 12px 20px;
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #666;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+/* Main column */
+.column {
+  max-width: 620px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Section heading */
+.section-label {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #E52B2B;
+  text-align: center;
+  margin-top: 48px;
+  margin-bottom: 8px;
+}
+
+/* Article title */
+.article-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 700;
+  font-size: clamp(2rem, 5vw, 2.8rem);
+  line-height: 1.15;
+  text-align: center;
+  margin-bottom: 8px;
+  color: #1a1a1a;
+}
+
+.article-subtitle {
+  font-family: 'Lora', Georgia, serif;
+  font-style: italic;
+  font-size: 1.15rem;
+  color: #555;
+  text-align: center;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+/* Byline */
+.byline {
+  text-align: center;
+  margin-bottom: 40px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.byline-author {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #1a1a1a;
+}
+
+.byline-date {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 300;
+  color: #888;
+  margin-top: 4px;
+}
+
+/* Body paragraphs */
+.body-text {
+  margin-bottom: 28px;
+  font-size: 17px;
+  color: #2a2a2a;
+}
+
+/* Drop cap */
+.drop-cap::first-letter {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 900;
+  font-size: 4.2em;
+  float: left;
+  line-height: 0.75;
+  margin-right: 8px;
+  margin-top: 8px;
+  color: #1a1a1a;
+}
+
+/* Dinkus divider */
+.dinkus {
+  text-align: center;
+  margin: 48px 0;
+  font-size: 18px;
+  letter-spacing: 1em;
+  color: #1a1a1a;
+  user-select: none;
+}
+
+/* Currency sections */
+.currency-section {
+  margin-bottom: 20px;
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.currency-section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Currency age heading */
+.currency-age {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 900;
+  font-size: 1.1rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #E52B2B;
+  margin-bottom: 2px;
+}
+
+.currency-name {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 700;
+  font-style: italic;
+  font-size: 1.8rem;
+  line-height: 1.2;
+  margin-bottom: 16px;
+  color: #1a1a1a;
+}
+
+/* Illustration container */
+.illustration {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto 12px;
+  display: block;
+}
+
+.illustration svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Cartoon caption */
+.caption {
+  font-family: 'Lora', Georgia, serif;
+  font-style: italic;
+  font-size: 14.5px;
+  color: #555;
+  text-align: center;
+  margin-bottom: 24px;
+  line-height: 1.6;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.caption::before {
+  content: "\201C";
+}
+
+.caption::after {
+  content: "\201D";
+}
+
+/* Letters to editor */
+.letters-section {
+  border-top: 3px double #1a1a1a;
+  margin-top: 60px;
+  padding-top: 40px;
+  padding-bottom: 80px;
+}
+
+.letters-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 700;
+  font-style: italic;
+  font-size: 1.6rem;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.letters-subtitle {
+  font-family: 'Lora', Georgia, serif;
+  font-style: italic;
+  font-size: 15px;
+  color: #666;
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.letters-form {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.letters-form label {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #666;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.letters-form input[type="number"] {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  width: 100px;
+  border: none;
+  border-bottom: 2px solid #1a1a1a;
+  background: transparent;
+  color: #1a1a1a;
+  outline: none;
+  padding: 4px 0;
+  -moz-appearance: textfield;
+}
+
+.letters-form input[type="number"]::-webkit-outer-spin-button,
+.letters-form input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.letters-form input[type="number"]:focus {
+  border-bottom-color: #E52B2B;
+}
+
+.letters-form button {
+  display: inline-block;
+  margin-top: 20px;
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  background: #1a1a1a;
+  color: #fff;
+  border: none;
+  padding: 12px 36px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.letters-form button:hover {
+  background: #E52B2B;
+}
+
+.letters-response {
+  max-width: 440px;
+  margin: 0 auto;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.letters-response.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.letters-response .response-currency {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #E52B2B;
+  margin-bottom: 6px;
+}
+
+.letters-response .response-caption {
+  font-family: 'Lora', Georgia, serif;
+  font-style: italic;
+  font-size: 17px;
+  line-height: 1.7;
+  color: #2a2a2a;
+}
+
+.letters-response .response-sign {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 11px;
+  color: #999;
+  margin-top: 16px;
+  letter-spacing: 0.05em;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 40px 20px 32px;
+  border-top: 1px solid #e0e0e0;
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 11px;
+  color: #aaa;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Page turn parallax feel */
+.parallax-section {
+  transition: transform 0.1s ease-out;
+}
+
+@media (max-width: 640px) {
+  .column {
+    padding: 0 18px;
+  }
+  .masthead-title {
+    font-size: 2.2rem;
+  }
+  .article-title {
+    font-size: 1.8rem;
+  }
+  .issue-bar {
+    flex-direction: column;
+    gap: 4px;
+  }
+  .drop-cap::first-letter {
+    font-size: 3.4em;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- Masthead -->
+<header class="masthead">
+  <div class="masthead-the">The</div>
+  <h1 class="masthead-title">New Yorker</h1>
+  <div class="masthead-red-bar"></div>
+</header>
+
+<div class="issue-bar">
+  <span>February 16, 2026</span>
+  <span>Price: One's Undivided Attention</span>
+</div>
+
+<!-- Main Column -->
+<main class="column">
+
+  <div class="section-label">Personal History</div>
+
+  <h2 class="article-title">Principal Currencies by Age</h2>
+  <p class="article-subtitle">A comprehensive field guide to the things we covet most,<br>arranged in the order we come to covet them.</p>
+
+  <div class="byline">
+    <div class="byline-author">By The Editors</div>
+    <div class="byline-date">February 16, 2026</div>
+  </div>
+
+  <p class="body-text drop-cap">There is a moment in every life when the object of one's deepest desire shifts, quietly and without ceremony, from one thing to another. The transition is rarely announced. No memo is circulated. One simply wakes up and discovers that the cookie, once the very axis around which the known universe turned, has been supplanted by something else entirely&mdash;a car ride, perhaps, or, God help us, a latte. What follows is an incomplete accounting of these shifts, assembled from years of close observation and no small amount of personal regret.</p>
+
+  <div class="dinkus">&bull; &bull; &bull;</div>
+
+  <!-- 1 Year: Blocks -->
+  <div class="currency-section parallax-section">
+    <div class="currency-age">Age 1</div>
+    <div class="currency-name">Blocks</div>
+
+    <div class="illustration">
+      <svg viewBox="0 0 420 280" xmlns="http://www.w3.org/2000/svg">
+        <!-- Floor line -->
+        <line x1="40" y1="250" x2="380" y2="250" stroke="#1a1a1a" stroke-width="1"/>
+        <!-- Baby figure - simple, cartoonish -->
+        <ellipse cx="210" cy="195" rx="28" ry="32" fill="none" stroke="#1a1a1a" stroke-width="1.8"/><!-- body -->
+        <circle cx="210" cy="152" r="22" fill="none" stroke="#1a1a1a" stroke-width="1.8"/><!-- head -->
+        <circle cx="203" cy="148" r="2.5" fill="#1a1a1a"/><!-- left eye -->
+        <circle cx="217" cy="148" r="2.5" fill="#1a1a1a"/><!-- right eye -->
+        <path d="M205 158 Q210 164 215 158" fill="none" stroke="#1a1a1a" stroke-width="1.5"/><!-- smile -->
+        <!-- Hair tufts -->
+        <path d="M200 133 Q198 122 205 128" fill="none" stroke="#1a1a1a" stroke-width="1.3"/>
+        <path d="M215 132 Q218 120 212 127" fill="none" stroke="#1a1a1a" stroke-width="1.3"/>
+        <!-- Arms reaching for blocks -->
+        <path d="M182 190 Q155 175 140 185" fill="none" stroke="#1a1a1a" stroke-width="1.8"/>
+        <path d="M238 190 Q265 175 275 185" fill="none" stroke="#1a1a1a" stroke-width="1.8"/>
+        <!-- Legs -->
+        <path d="M195 225 Q190 245 180 250" fill="none" stroke="#1a1a1a" stroke-width="1.8"/>
+        <path d="M225 225 Q230 245 240 250" fill="none" stroke="#1a1a1a" stroke-width="1.8"/>
+        <!-- Block tower left -->
+        <rect x="100" y="218" width="32" height="32" fill="none" stroke="#1a1a1a" stroke-width="1.5" rx="2"/>
+        <rect x="105" y="188" width="22" height="30" fill="none" stroke="#1a1a1a" stroke-width="1.5" rx="2"/>
+        <text x="116" y="239" font-family="'Playfair Display', serif" font-size="14" fill="#1a1a1a" text-anchor="middle">A</text>
+        <!-- Scattered blocks right -->
+        <rect x="280" y="230" width="28" height="20" fill="none" stroke="#1a1a1a" stroke-width="1.5" rx="2" transform="rotate(-12,294,240)"/>
+        <rect x="310" y="225" width="25" height="25" fill="none" stroke="#1a1a1a" stroke-width="1.5" rx="2"/>
+        <text x="322" y="243" font-family="'Playfair Display', serif" font-size="13" fill="#1a1a1a" text-anchor="middle">B</text>
+        <!-- Fallen block -->
+        <rect x="145" y="238" width="20" height="14" fill="none" stroke="#1a1a1a" stroke-width="1.2" rx="1" transform="rotate(25,155,245)"/>
+      </svg>
+    </div>
+
+    <p class="caption">Honestly, I'm not building anything. I just like the sound they make when they fall.</p>
+
+    <p class="body-text drop-cap">At one year old, the child has no use for money, reputation, or social capital. The child has blocks. The wooden block&mdash;primary-colored, slightly chewed at one corner&mdash;is the first commodity a person comes to value, and it may be the most honest. A block does exactly what it promises. It sits there. It can be stacked. It can be toppled. It can be inserted into the mouth, with varying degrees of success. There is no pretense to a block, no hidden agenda. It would be decades before the child encountered anything so straightforward again.</p>
+  </div>
+
+  <div class="dinkus">&bull; &bull; &bull;</div>
+
+  <!-- 5 Years: Cookies -->
+  <div class="currency-section parallax-section">
+    <div class="currency-age">Age 5</div>
+    <div class="currency-name">Cookies</div>
+
+    <div class="illustration">
+      <svg viewBox="0 0 420 280" xmlns="http://www.w3.org/2000/svg">
+        <line x1="40" y1="255" x2="380" y2="255" stroke="#1a1a1a" stroke-width="1"/>
+        <!-- Child standing on tiptoes reaching for cookie jar on counter -->
+        <!-- Counter/table -->
+        <rect x="220" y="140" width="160" height="8" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
+        <line x1="230" y1="148" x2="230" y2="255" stroke="#1a1a1a" stroke-width="1.3"/>
+        <line x1="370" y1="148" x2="370" y2="255" stroke="#1a1a1a" stroke-width="1.3"/>
+        <!-- Cookie jar -->
+        <ellipse cx="310" cy="120" rx="30" ry="8" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
+        <path d="M280 120 L280 138 Q280 142 310 142 Q340 142 340 138 L340 120" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
+        <ellipse cx="310" cy="113" rx="16" ry="5" fill="none" stroke="#1a1a1a" stroke-width="1.3"/>
+        <circle cx="310" cy="108" r="5" fill="none" stroke="#1a1a1a" stroke-width="1.3"/>
+        <!-- COOKIES label -->
+        <text x="310" y="134" font-family="'Nunito Sans', sans-serif" font-size="8" fill="#1a1a1a" text-anchor="middle" letter-spacing="1">COOKIES</text>
+        <!-- Child figure, on tiptoes -->
+        <!-- Head -->
+        <circle cx="160" cy="115" r="20" fill="none" stroke="#1a1a1a" stroke-width="1.8"/>
+        <circle cx="153" cy="112" r="2" fill="#1a1a1a"/>
+        <circle cx="167" cy="112" r="2" fill="#1a1a1a"/>
+        <!-- Determined expression -->
+        <path d="M155 122 L165 122" stroke="#1a1a1a" stroke-width="1.3"/>
+        <!-- Hair -->
+        <path d="M142 105 Q140 90 155 95" fill="none" stroke="#1a1a1a" stroke-width="1.2"/>
+        <path d="M155 95 Q165 88 175 97" fill="none" stroke="#1a1a1a" stroke-width="1.2"/>
+        <!-- Body -->
+        <line x1="160" y1="135" x2="160" y2="195" stroke="#1a1a1a" stroke-width="1.8"/>
+        <!-- Arms reaching up -->
+        <path d="M160 155 Q190 130 220 135" fill="none" stroke="#1a1a1a" stroke-width="1.8"/>
+        <path d="M160 160 Q195 140 225 138" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
+        <!-- Legs on tiptoes -->
+        <path d="M160 195 Q155 225 148 240" fill="none" stroke="#1a1a1a" stroke-width="1.8"/>
+        <path d="M160 195 Q170 225 175 240" fill="none" stroke="#1a1a1a" stroke-width="1.8"/>
+        <!-- Tiptoe feet -->
+        <path d="M148 240 L148 250 L140 255" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
+        <path d="M175 240 L175 250 L183 255" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
+        <!-- Cookie floating near hand -->
+        <circle cx="228" cy="128" r="10" fill="none" stroke="#1a1a1a" stroke-width="1.3"/>
+        <circle cx="224" cy="126" r="2" fill="#1a1a1a"/>
+        <circle cx="231" cy="131" r="1.8" fill="#1a1a1a"/>
+        <circle cx="228" cy="123" r="1.5" fill="#1a1a1a"/>
+        <!-- Cat watching from floor -->
+        <ellipse cx="80" cy="245" rx="18" ry="10" fill="none" stroke="#1a1a1a" stroke-width="1.2"/>
+        <circle cx="72" cy="234" r="8" fill="none" stroke="#1a1a1a" stroke-width="1.2"/>
+        <circle cx="69" cy="232" r="1.5" fill="#1a1a1a"/>
+        <circle cx="75" cy="232" r="1.5" fill="#1a1a1a"/>
+        <path d="M64 228 L62 220 L68 226" fill="none" stroke="#1a1a1a" stroke-width="1"/>
+        <path d="M78 227 L82 219 L80 226" fill="none" stroke="#1a1a1a" stroke-width="1"/>
+        <path d="M97 242 Q110 235 115 245" fill="none" stroke="#1a1a1a" stroke-width="1"/>
+      </svg>
+    </div>
+
+    <p class="caption">I don't want to alarm anyone, but I believe the cookies are on a higher shelf than last week.</p>
+
+    <p class="body-text drop-cap">By five, the child has developed taste, which is to say the child has discovered sugar. The cookie is the five-year-old's stock option, bonus check, and corner office combined. Elaborate negotiations are conducted for cookies. Alliances are forged and betrayed. A child who would not pick up a single toy from the living-room floor will scale a kitchen counter with the focus and determination of a Sherpa approaching the Hillary Step, all for a single chocolate chip cookie that an adult would consume without thinking, standing over the sink, at eleven-thirty at night.</p>
+  </div>
+
+  <div class="dinkus">&bull; &bull; &bull;</div>
+
+  <!-- 16 Years: Car Rides -->
+  <div class="currency-section parallax-section">
+    <div class="currency-age">Age 16</div>
+    <div class="currency-name">Car Rides</div>
+
+    <div class="illustration">
+      <svg viewBox="0 0 420 280" xmlns="http://www.w3.org/2000/svg">
+        <line x1="20" y1="250" x2="400" y2="250" stroke="#1a1a1a" stroke-width="1"/>
+        <!-- Car - simple editorial style -->
+        <path d="M80 220 Q80 195 100 190 L150 185 Q180 165 220 165 Q260 165 280 185 L330 190 Q350 195 350 220" fill="none" stroke="#1a1a1a" stroke-width="1.8"/>
+        <!-- Car body lower -->
+        <path d="M65 220 L65 235 Q65 242 75 242 L355 242 Q365 242 365 235 L365 220" fill="none" stroke="#1a1a1a" stroke-width="1.8"/>
+        <!-- Wheels -->
+        <circle cx="125" cy="248" r="16" fill="none" stroke="#1a1a1a" stroke-width="1.8"/>
+        <circle cx="125" cy="248" r="6" fill="none" stroke="#1a1a1a" stroke-width="1"/>
+        <circle cx="305" cy="248" r="16" fill="none" stroke="#1a1a1a" stroke-width="1.8"/>
+        <circle cx="305" cy="248" r="6" fill="none" stroke="#1a1a1a" stroke-width="1"/>
+        <!-- Windows -->
+        <path d="M155 190 L165 172 Q185 165 215 165 L215 190 Z" fill="none" stroke="#1a1a1a" stroke-width="1.3"/>
+        <path d="M220 190 L220 165 Q250 165 270 180 L280 190 Z" fill="none" stroke="#1a1a1a" stroke-width="1.3"/>
+        <!-- Teen driver - excited -->
+        <circle cx="260" cy="180" r="10" fill="none" stroke="#1a1a1a" stroke-width="1.3"/>
+        <circle cx="257" cy="178" r="1.5" fill="#1a1a1a"/>
+        <circle cx="263" cy="178" r="1.5" fill="#1a1a1a"/>
+        <path d="M256 184 Q260 188 264 184" fill="none" stroke="#1a1a1a" stroke-width="1"/>
+        <!-- Hair -->
+        <path d="M250 172 Q252 166 260 168" fill="none" stroke="#1a1a1a" stroke-width="1"/>
+        <!-- Parent in passenger seat - terrified -->
+        <circle cx="190" cy="180" r="10" fill="none" stroke="#1a1a1a" stroke-width="1.3"/>
+        <circle cx="187" cy="177" r="2" fill="#1a1a1a"/><!-- wide eye -->
+        <circle cx="193" cy="177" r="2" fill="#1a1a1a"/><!-- wide eye -->
+        <path d="M185 185 Q190 183 195 185" fill="none" stroke="#1a1a1a" stroke-width="1"/><!-- grimace -->
+        <!-- Parent gripping dashboard -->
+        <path d="M198 188 L210 195" fill="none" stroke="#1a1a1a" stroke-width="1.3"/>
+        <!-- Motion lines -->
+        <line x1="30" y1="215" x2="55" y2="215" stroke="#1a1a1a" stroke-width="0.8"/>
+        <line x1="25" y1="225" x2="58" y2="225" stroke="#1a1a1a" stroke-width="0.8"/>
+        <line x1="35" y1="235" x2="58" y2="235" stroke="#1a1a1a" stroke-width="0.8"/>
+        <!-- Road markings -->
+        <line x1="20" y1="262" x2="60" y2="262" stroke="#1a1a1a" stroke-width="1" stroke-dasharray="12,8"/>
+        <line x1="80" y1="262" x2="120" y2="262" stroke="#1a1a1a" stroke-width="1" stroke-dasharray="12,8"/>
+        <line x1="300" y1="262" x2="340" y2="262" stroke="#1a1a1a" stroke-width="1" stroke-dasharray="12,8"/>
+        <line x1="360" y1="262" x2="400" y2="262" stroke="#1a1a1a" stroke-width="1" stroke-dasharray="12,8"/>
+      </svg>
+    </div>
+
+    <p class="caption">My son says he's ready for independence. He also can't parallel park or boil water.</p>
+
+    <p class="body-text drop-cap">Sixteen is the age at which the automobile, previously understood only as the large box in which one is transported to the orthodontist, reveals itself to be something else entirely: a vehicle of freedom. The car ride is the currency of sixteen because it represents the first real negotiation between the self and the open road, between the desire to go somewhere&mdash;anywhere, really&mdash;and the brute fact that someone must drive you there. To be sixteen and without a car ride is to be marooned on an island that looks suspiciously like your parents' house. The desperation is genuine. The driving, when it comes, is somewhat less so.</p>
+  </div>
+
+  <div class="dinkus">&bull; &bull; &bull;</div>
+
+  <!-- 25 Years: Lattes -->
+  <div class="currency-section parallax-section">
+    <div class="currency-age">Age 25</div>
+    <div class="currency-name">Lattes</div>
+
+    <div class="illustration">
+      <svg viewBox="0 0 420 280" xmlns="http://www.w3.org/2000/svg">
+        <line x1="40" y1="260" x2="380" y2="260" stroke="#1a1a1a" stroke-width="1"/>
+        <!-- Cafe counter/bar -->
+        <rect x="40" y="170" width="340" height="6" fill="none" stroke="#1a1a1a" stroke-width="1.3"/>
+        <!-- Person sitting at counter on stool -->
+        <!-- Stool -->
+        <line x1="180" y1="220" x2="180" y2="260" stroke="#1a1a1a" stroke-width="1.5"/>
+        <line x1="165" y1="260" x2="195" y2="260" stroke="#1a1a1a" stroke-width="1.5"/>
+        <ellipse cx="180" cy="218" rx="16" ry="4" fill="none" stroke="#1a1a1a" stroke-width="1.3"/>
+        <!-- Person on stool -->
+        <line x1="180" y1="218" x2="180" y2="185" stroke="#1a1a1a" stroke-width="1.8"/><!-- torso -->
+        <circle cx="180" cy="155" r="16" fill="none" stroke="#1a1a1a" stroke-width="1.8"/><!-- head -->
+        <!-- Glasses -->
+        <circle cx="174" cy="153" r="5" fill="none" stroke="#1a1a1a" stroke-width="1"/>
+        <circle cx="186" cy="153" r="5" fill="none" stroke="#1a1a1a" stroke-width="1"/>
+        <line x1="179" y1="153" x2="181" y2="153" stroke="#1a1a1a" stroke-width="0.8"/>
+        <!-- Eyes behind glasses -->
+        <circle cx="174" cy="153" r="1.5" fill="#1a1a1a"/>
+        <circle cx="186" cy="153" r="1.5" fill="#1a1a1a"/>
+        <!-- Slight smile -->
+        <path d="M176 161 Q180 164 184 161" fill="none" stroke="#1a1a1a" stroke-width="1"/>
+        <!-- Hair -->
+        <path d="M165 148 Q163 135 175 138 Q180 130 190 138 Q197 135 196 148" fill="none" stroke="#1a1a1a" stroke-width="1.2"/>
+        <!-- Arm holding laptop/phone on counter -->
+        <path d="M180 192 Q200 185 210 170" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
+        <path d="M180 195 Q160 185 155 170" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
+        <!-- Legs -->
+        <path d="M175 218 Q170 240 165 255" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
+        <path d="M185 218 Q190 240 195 255" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
+        <!-- Laptop on counter -->
+        <rect x="135" y="155" width="35" height="22" fill="none" stroke="#1a1a1a" stroke-width="1.2" rx="2"/>
+        <rect x="130" y="177" width="45" height="3" fill="none" stroke="#1a1a1a" stroke-width="1" rx="1"/>
+        <!-- GIANT latte -->
+        <path d="M260 115 L255 168 Q255 172 265 172 L305 172 Q315 172 315 168 L310 115" fill="none" stroke="#1a1a1a" stroke-width="1.8"/>
+        <!-- Latte art -->
+        <ellipse cx="285" cy="118" rx="26" ry="8" fill="none" stroke="#1a1a1a" stroke-width="1.3"/>
+        <path d="M275 118 Q285 128 295 118" fill="none" stroke="#1a1a1a" stroke-width="0.8"/>
+        <path d="M280 118 Q285 124 290 118" fill="none" stroke="#1a1a1a" stroke-width="0.8"/>
+        <!-- Steam -->
+        <path d="M275 105 Q272 95 278 88" fill="none" stroke="#1a1a1a" stroke-width="0.8"/>
+        <path d="M285 102 Q282 90 288 82" fill="none" stroke="#1a1a1a" stroke-width="0.8"/>
+        <path d="M295 105 Q292 95 298 88" fill="none" stroke="#1a1a1a" stroke-width="0.8"/>
+        <!-- Price tag -->
+        <text x="285" y="150" font-family="'Nunito Sans', sans-serif" font-size="9" fill="#1a1a1a" text-anchor="middle">$7.50</text>
+      </svg>
+    </div>
+
+    <p class="caption">I see you've also given up on finding meaning and switched to oat milk.</p>
+
+    <p class="body-text">At twenty-five, one has graduated from something, moved to a city, and taken up a position&mdash;junior, always junior&mdash;in an office where the lights are either fluorescent or &ldquo;mood,&rdquo; depending on the industry. The latte is the currency here, not because it tastes particularly good (it does) but because it represents a seven-dollar daily assertion that one is, in fact, an adult. The latte says: I have preferences. I have a morning routine. I have four dollars and fifty cents less than I did five minutes ago, but I have, cradled in my hands, proof that I am a person who makes choices. The oat milk is extra. The oat milk is always extra.</p>
+  </div>
+
+  <div class="dinkus">&bull; &bull; &bull;</div>
+
+  <!-- 31 Years: Sleep -->
+  <div class="currency-section parallax-section">
+    <div class="currency-age">Age 31</div>
+    <div class="currency-name">Sleep</div>
+
+    <div class="illustration">
+      <svg viewBox="0 0 420 280" xmlns="http://www.w3.org/2000/svg">
+        <!-- Bed -->
+        <rect x="60" y="155" width="300" height="80" fill="none" stroke="#1a1a1a" stroke-width="1.5" rx="3"/>
+        <!-- Headboard -->
+        <rect x="55" y="120" width="20" height="120" fill="none" stroke="#1a1a1a" stroke-width="1.5" rx="4"/>
+        <!-- Footboard -->
+        <rect x="345" y="160" width="20" height="80" fill="none" stroke="#1a1a1a" stroke-width="1.5" rx="4"/>
+        <!-- Bed legs -->
+        <line x1="65" y1="240" x2="65" y2="258" stroke="#1a1a1a" stroke-width="1.5"/>
+        <line x1="355" y1="240" x2="355" y2="258" stroke="#1a1a1a" stroke-width="1.5"/>
+        <!-- Blanket wave -->
+        <path d="M75 170 Q120 145 180 165 Q240 185 300 160 Q330 150 345 160" fill="none" stroke="#1a1a1a" stroke-width="1.3"/>
+        <!-- Pillow -->
+        <ellipse cx="110" cy="168" rx="35" ry="14" fill="none" stroke="#1a1a1a" stroke-width="1.3"/>
+        <!-- Person's head on pillow -->
+        <circle cx="115" cy="160" r="16" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
+        <!-- Closed eyes (sleeping) -->
+        <path d="M107 158 Q110 161 113 158" fill="none" stroke="#1a1a1a" stroke-width="1.2"/>
+        <path d="M119 158 Q122 161 125 158" fill="none" stroke="#1a1a1a" stroke-width="1.2"/>
+        <!-- Peaceful mouth -->
+        <path d="M112 166 Q115 168 118 166" fill="none" stroke="#1a1a1a" stroke-width="0.8"/>
+        <!-- Z's floating up -->
+        <text x="150" y="140" font-family="'Playfair Display', serif" font-size="22" font-style="italic" fill="#1a1a1a" opacity="0.7">z</text>
+        <text x="175" y="115" font-family="'Playfair Display', serif" font-size="28" font-style="italic" fill="#1a1a1a" opacity="0.5">z</text>
+        <text x="205" y="85" font-family="'Playfair Display', serif" font-size="36" font-style="italic" fill="#1a1a1a" opacity="0.3">z</text>
+        <!-- Alarm clock on nightstand -->
+        <rect x="370" y="140" width="35" height="30" fill="none" stroke="#1a1a1a" stroke-width="1.2"/>
+        <!-- Nightstand -->
+        <rect x="368" y="135" width="39" height="6" fill="none" stroke="#1a1a1a" stroke-width="1"/>
+        <line x1="375" y1="170" x2="375" y2="258" stroke="#1a1a1a" stroke-width="1"/>
+        <line x1="400" y1="170" x2="400" y2="258" stroke="#1a1a1a" stroke-width="1"/>
+        <!-- Clock face -->
+        <circle cx="387" cy="152" r="10" fill="none" stroke="#1a1a1a" stroke-width="1"/>
+        <line x1="387" y1="152" x2="387" y2="145" stroke="#1a1a1a" stroke-width="1"/>
+        <line x1="387" y1="152" x2="392" y2="152" stroke="#1a1a1a" stroke-width="0.8"/>
+        <!-- Clock bells -->
+        <circle cx="380" cy="137" r="4" fill="none" stroke="#1a1a1a" stroke-width="0.8"/>
+        <circle cx="394" cy="137" r="4" fill="none" stroke="#1a1a1a" stroke-width="0.8"/>
+        <!-- Phone on floor with notifications -->
+        <rect x="280" y="245" width="22" height="12" fill="none" stroke="#1a1a1a" stroke-width="1" rx="2"/>
+        <circle cx="310" cy="248" r="4" fill="none" stroke="#1a1a1a" stroke-width="0.7"/>
+        <circle cx="310" cy="248" r="1.5" fill="#1a1a1a"/>
+        <!-- Floor -->
+        <line x1="40" y1="258" x2="410" y2="258" stroke="#1a1a1a" stroke-width="1"/>
+      </svg>
+    </div>
+
+    <p class="caption">We used to talk about our dreams. Now we just want to have them&mdash;unconsciously, for eight hours, uninterrupted.</p>
+
+    <p class="body-text drop-cap">Sleep, at thirty-one, is no longer something that happens. It is something that is pursued, negotiated for, and, on the best nights, briefly achieved. The thirty-one-year-old has a child, or a job that behaves like one, or both, and has come to understand that consciousness, while technically necessary, is also profoundly overrated. Sleep is the new money. People will cancel plans for it. They will pay for apps that promise it. They will discuss it at dinner parties with the fervor once reserved for politics and real estate. &ldquo;I got seven hours last night,&rdquo; someone will say, and the table will go silent with envy.</p>
+  </div>
+
+  <div class="dinkus">&bull; &bull; &bull;</div>
+
+  <!-- 45 Years: Actual Money -->
+  <div class="currency-section parallax-section">
+    <div class="currency-age">Age 45</div>
+    <div class="currency-name">Actual Money</div>
+
+    <div class="illustration">
+      <svg viewBox="0 0 420 280" xmlns="http://www.w3.org/2000/svg">
+        <line x1="30" y1="258" x2="390" y2="258" stroke="#1a1a1a" stroke-width="1"/>
+        <!-- Person at desk -->
+        <!-- Desk -->
+        <rect x="120" y="185" width="200" height="6" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
+        <line x1="135" y1="191" x2="135" y2="258" stroke="#1a1a1a" stroke-width="1.3"/>
+        <line x1="305" y1="191" x2="305" y2="258" stroke="#1a1a1a" stroke-width="1.3"/>
+        <!-- Chair -->
+        <rect x="185" y="200" width="50" height="45" fill="none" stroke="#1a1a1a" stroke-width="1.2" rx="3"/>
+        <line x1="200" y1="245" x2="195" y2="258" stroke="#1a1a1a" stroke-width="1.2"/>
+        <line x1="225" y1="245" x2="230" y2="258" stroke="#1a1a1a" stroke-width="1.2"/>
+        <!-- Person sitting -->
+        <line x1="210" y1="200" x2="210" y2="160" stroke="#1a1a1a" stroke-width="1.8"/>
+        <circle cx="210" cy="140" r="16" fill="none" stroke="#1a1a1a" stroke-width="1.8"/>
+        <!-- Tired but determined eyes -->
+        <line x1="203" y1="138" x2="210" y2="138" stroke="#1a1a1a" stroke-width="1.5"/>
+        <line x1="213" y1="138" x2="220" y2="138" stroke="#1a1a1a" stroke-width="1.5"/>
+        <!-- Slight frown -->
+        <path d="M205 148 Q210 146 215 148" fill="none" stroke="#1a1a1a" stroke-width="1"/>
+        <!-- Arms on desk -->
+        <path d="M210 170 Q180 180 160 185" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
+        <path d="M210 170 Q240 180 260 185" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
+        <!-- Papers on desk -->
+        <rect x="140" y="172" width="28" height="18" fill="none" stroke="#1a1a1a" stroke-width="1" transform="rotate(-5,154,181)"/>
+        <line x1="145" y1="178" x2="163" y2="177" stroke="#1a1a1a" stroke-width="0.5"/>
+        <line x1="145" y1="182" x2="160" y2="181" stroke="#1a1a1a" stroke-width="0.5"/>
+        <!-- Monitor -->
+        <rect x="245" y="145" width="55" height="40" fill="none" stroke="#1a1a1a" stroke-width="1.3" rx="2"/>
+        <line x1="272" y1="185" x2="272" y2="192" stroke="#1a1a1a" stroke-width="1.2"/>
+        <!-- Dollar signs floating in thought -->
+        <path d="M230 115 Q245 90 260 105" fill="none" stroke="#1a1a1a" stroke-width="0.8" stroke-dasharray="3,3"/>
+        <text x="260" y="88" font-family="'Playfair Display', serif" font-size="18" fill="#1a1a1a">$</text>
+        <text x="245" y="75" font-family="'Playfair Display', serif" font-size="14" fill="#1a1a1a" opacity="0.6">$</text>
+        <text x="275" y="78" font-family="'Playfair Display', serif" font-size="11" fill="#1a1a1a" opacity="0.4">$</text>
+        <!-- Coffee cup on desk (callback) -->
+        <path d="M280 175 L278 185 Q278 187 282 187 L292 187 Q296 187 296 185 L294 175" fill="none" stroke="#1a1a1a" stroke-width="1"/>
+        <!-- Tie -->
+        <path d="M210 156 L207 170 L210 175 L213 170 Z" fill="none" stroke="#1a1a1a" stroke-width="1"/>
+      </svg>
+    </div>
+
+    <p class="caption">At some point, I stopped being an idealist and started being a person with a mortgage. Same thing, really.</p>
+
+    <p class="body-text">Here we arrive at the one currency that actually is a currency. By forty-five, a person has cycled through enough metaphorical economies to find something almost refreshing in the literal one. Money, at forty-five, is not about greed. It is about arithmetic. There are tuitions and mortgages and the slow dawning comprehension that retirement is not, as previously imagined, an abstract concept that applies to other people. The forty-five-year-old does not worship money. The forty-five-year-old merely understands, with a clarity that would have seemed crass at twenty-five, that the latte costs seven dollars, and that seven dollars, multiplied by three hundred and sixty-five, is two thousand five hundred and fifty-five dollars, which is, the forty-five-year-old cannot help but notice, not nothing.</p>
+  </div>
+
+  <div class="dinkus">&bull; &bull; &bull;</div>
+
+  <!-- 61 Years: Time -->
+  <div class="currency-section parallax-section">
+    <div class="currency-age">Age 61</div>
+    <div class="currency-name">Time</div>
+
+    <div class="illustration">
+      <svg viewBox="0 0 420 280" xmlns="http://www.w3.org/2000/svg">
+        <!-- Park bench scene -->
+        <line x1="20" y1="250" x2="400" y2="250" stroke="#1a1a1a" stroke-width="1"/>
+        <!-- Bench -->
+        <path d="M100 220 L100 248" fill="none" stroke="#1a1a1a" stroke-width="1.8"/>
+        <path d="M300 220 L300 248" fill="none" stroke="#1a1a1a" stroke-width="1.8"/>
+        <rect x="90" y="210" width="220" height="12" fill="none" stroke="#1a1a1a" stroke-width="1.5" rx="2"/>
+        <rect x="90" y="195" width="220" height="8" fill="none" stroke="#1a1a1a" stroke-width="1.2" rx="1"/>
+        <!-- Back of bench -->
+        <line x1="95" y1="195" x2="95" y2="165" stroke="#1a1a1a" stroke-width="1.5"/>
+        <line x1="305" y1="195" x2="305" y2="165" stroke="#1a1a1a" stroke-width="1.5"/>
+        <rect x="93" y="165" width="215" height="6" fill="none" stroke="#1a1a1a" stroke-width="1" rx="1"/>
+        <rect x="93" y="175" width="215" height="6" fill="none" stroke="#1a1a1a" stroke-width="1" rx="1"/>
+        <rect x="93" y="185" width="215" height="6" fill="none" stroke="#1a1a1a" stroke-width="1" rx="1"/>
+        <!-- Person sitting on bench -->
+        <line x1="200" y1="210" x2="200" y2="175" stroke="#1a1a1a" stroke-width="1.8"/>
+        <circle cx="200" cy="150" r="17" fill="none" stroke="#1a1a1a" stroke-width="1.8"/>
+        <!-- Gentle, wise eyes -->
+        <circle cx="194" cy="148" r="1.8" fill="#1a1a1a"/>
+        <circle cx="206" cy="148" r="1.8" fill="#1a1a1a"/>
+        <!-- Gentle smile -->
+        <path d="M194 157 Q200 162 206 157" fill="none" stroke="#1a1a1a" stroke-width="1.2"/>
+        <!-- Hat -->
+        <path d="M180 140 Q180 128 200 128 Q220 128 220 140" fill="none" stroke="#1a1a1a" stroke-width="1.3"/>
+        <line x1="175" y1="141" x2="225" y2="141" stroke="#1a1a1a" stroke-width="1.3"/>
+        <!-- Arm resting on bench back -->
+        <path d="M200 180 Q230 170 260 172" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
+        <!-- Other arm with book -->
+        <path d="M200 185 Q175 195 165 190" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
+        <rect x="148" y="182" width="20" height="14" fill="none" stroke="#1a1a1a" stroke-width="1" rx="1" transform="rotate(-15,158,189)"/>
+        <!-- Legs crossed -->
+        <path d="M195 210 Q190 230 180 245" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
+        <path d="M205 210 Q215 225 225 230 Q220 240 215 248" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
+        <!-- Tree -->
+        <line x1="360" y1="250" x2="360" y2="120" stroke="#1a1a1a" stroke-width="2"/>
+        <path d="M360 120 Q340 115 335 100 Q340 80 360 75 Q380 80 385 100 Q380 115 360 120" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
+        <path d="M345 130 Q325 128 325 115 Q330 100 345 105" fill="none" stroke="#1a1a1a" stroke-width="1.2"/>
+        <path d="M375 128 Q395 125 392 110 Q388 100 375 105" fill="none" stroke="#1a1a1a" stroke-width="1.2"/>
+        <!-- Falling leaves -->
+        <path d="M340 130 Q335 140 338 148" fill="none" stroke="#1a1a1a" stroke-width="0.8"/>
+        <path d="M380 135 Q385 145 382 155" fill="none" stroke="#1a1a1a" stroke-width="0.8"/>
+        <!-- Bird on bench -->
+        <ellipse cx="130" cy="205" rx="8" ry="5" fill="none" stroke="#1a1a1a" stroke-width="1"/>
+        <circle cx="123" cy="200" r="4" fill="none" stroke="#1a1a1a" stroke-width="1"/>
+        <circle cx="122" cy="199" r="1" fill="#1a1a1a"/>
+        <path d="M119 200 L115 201" fill="none" stroke="#1a1a1a" stroke-width="0.8"/>
+        <!-- Sun/watch -->
+        <circle cx="60" cy="60" r="25" fill="none" stroke="#1a1a1a" stroke-width="1"/>
+        <line x1="60" y1="60" x2="60" y2="42" stroke="#1a1a1a" stroke-width="1"/>
+        <line x1="60" y1="60" x2="72" y2="65" stroke="#1a1a1a" stroke-width="0.8"/>
+        <text x="50" y="55" font-family="'Nunito Sans', sans-serif" font-size="6" fill="#1a1a1a">12</text>
+        <text x="78" y="64" font-family="'Nunito Sans', sans-serif" font-size="6" fill="#1a1a1a">3</text>
+        <text x="54" y="80" font-family="'Nunito Sans', sans-serif" font-size="6" fill="#1a1a1a">6</text>
+        <text x="36" y="64" font-family="'Nunito Sans', sans-serif" font-size="6" fill="#1a1a1a">9</text>
+      </svg>
+    </div>
+
+    <p class="caption">I finally have the time to do everything I want. Unfortunately, what I want is more time.</p>
+
+    <p class="body-text drop-cap">And so we arrive at the end of the ledger, where the currency is the one thing that cannot be earned, saved, or invested: time. At sixty-one, a person has accumulated enough of everything else&mdash;enough money, enough stuff, enough opinions&mdash;to understand that none of it compounds the way a Tuesday afternoon does. The sixty-one-year-old sits on a park bench and does something that would have been unthinkable at twenty-five: nothing. And the nothing is exquisite. Every unhurried minute is a small fortune. Every afternoon without an agenda is a windfall. The sixty-one-year-old has solved the equation that the rest of us are still scribbling at, which is that the richest person in the room is not the one with the most money but the one with the most morning.</p>
+
+  <div class="dinkus">&bull; &bull; &bull;</div>
+
+  <p class="body-text" style="margin-top: 40px; margin-bottom: 48px; text-align: center; font-style: italic; color: #555;">The cycle, of course, continues. The one-year-old will eventually want cookies. The cookie-lover will want car rides. The driver will want coffee, then sleep, then money, then time&mdash;and then, perhaps, the simplicity of blocks again. The economy of a life is circular, which is another way of saying that it is, in the end, perfectly designed.</p>
+
+  <!-- Letters to the Editor -->
+  <section class="letters-section">
+    <div class="section-label">The Mail</div>
+    <h3 class="letters-title">Letters to the Editor</h3>
+    <p class="letters-subtitle">Enter your age and receive your personalized currency assessment.</p>
+
+    <div class="letters-form">
+      <label for="age-input">Your Age, in Years</label>
+      <input type="number" id="age-input" min="0" max="120" placeholder="31" aria-label="Enter your age">
+      <br>
+      <button id="submit-age" onclick="generateCaption()">Assess My Currency</button>
+    </div>
+
+    <div class="letters-response" id="response">
+      <div class="response-currency" id="response-currency"></div>
+      <div class="response-caption" id="response-caption"></div>
+      <div class="response-sign" id="response-sign"></div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  &copy; 2026 &middot; All currencies subject to inflation, deflation, and the passage of time.
+</footer>
+
+<script>
+// Scroll reveal
+function revealOnScroll() {
+  const sections = document.querySelectorAll('.currency-section');
+  const windowHeight = window.innerHeight;
+
+  sections.forEach(section => {
+    const rect = section.getBoundingClientRect();
+    if (rect.top < windowHeight * 0.85) {
+      section.classList.add('visible');
+    }
+  });
+}
+
+window.addEventListener('scroll', revealOnScroll);
+window.addEventListener('load', revealOnScroll);
+
+// Subtle parallax on illustrations
+window.addEventListener('scroll', function() {
+  const sections = document.querySelectorAll('.parallax-section');
+  sections.forEach(section => {
+    const rect = section.getBoundingClientRect();
+    const center = rect.top + rect.height / 2;
+    const windowCenter = window.innerHeight / 2;
+    const offset = (center - windowCenter) * 0.02;
+    section.style.transform = section.classList.contains('visible')
+      ? 'translateY(' + offset + 'px)'
+      : 'translateY(24px)';
+  });
+});
+
+// Letters to the Editor
+function generateCaption() {
+  const age = parseInt(document.getElementById('age-input').value);
+  if (isNaN(age) || age < 0 || age > 120) {
+    return;
+  }
+
+  let currency, caption;
+
+  if (age < 1) {
+    currency = 'Milk';
+    caption = 'Your principal currency is milk, which, at your age, is less a preference than a biological mandate. You have no say in the matter. This will be the last time anything is so simple.';
+  } else if (age < 3) {
+    currency = 'Blocks';
+    caption = 'You are in the golden age of blocks. Every tower you build is an act of creation; every tower you topple, an act of joyful destruction. You will spend the rest of your life trying to recapture this balance.';
+  } else if (age < 5) {
+    currency = 'Stickers';
+    caption = 'Stickers are your present obsession\u2014small, adhesive validations of a life well lived. You place them on surfaces that were not designed to receive them, which is, come to think of it, a metaphor for something.';
+  } else if (age < 8) {
+    currency = 'Cookies';
+    caption = 'The cookie economy is at its zenith. You would trade almost anything for one\u2014dignity, silence, the family cat. An economist would call this irrational. An economist has clearly never been offered a warm chocolate chip cookie at age ' + age + '.';
+  } else if (age < 13) {
+    currency = 'Screen Time';
+    caption = 'Your currency is screen time, measured in minutes, hoarded like gold, and subject to the arbitrary regulation of parental authorities who do not, you feel strongly, understand the market.';
+  } else if (age < 16) {
+    currency = 'Social Approval';
+    caption = 'You are trading in the most volatile currency known to humankind: the opinions of other thirteen-to-fifteen-year-olds. The exchange rate fluctuates hourly. No one has yet devised a hedge.';
+  } else if (age < 20) {
+    currency = 'Car Rides';
+    caption = 'Freedom, at ' + age + ', has four wheels and a gas tank that someone else is expected to fill. You are not yet aware that the open road leads, in most cases, to a parking lot. Enjoy the windshield time.';
+  } else if (age < 25) {
+    currency = 'Experiences';
+    caption = 'You have declared, perhaps on social media, that you value experiences over things. This is easy to say when you have neither. The brunch, however, is non-negotiable.';
+  } else if (age < 30) {
+    currency = 'Lattes';
+    caption = 'At ' + age + ', the latte is not merely a beverage but a daily proof of concept\u2014evidence that you are a functioning adult in a complicated world. The barista who spells your name wrong is committing, you feel, a small act of existential violence.';
+  } else if (age < 38) {
+    currency = 'Sleep';
+    caption = 'You are ' + age + ' years old and would pay actual money\u2014good money, money you do not have\u2014for an uninterrupted eight hours. You have begun to regard your bed with the reverence once reserved for places of worship. This is not a phase.';
+  } else if (age < 50) {
+    currency = 'Actual Money';
+    caption = 'You have arrived at the age where the metaphorical currencies give way to the literal one. You now understand compound interest, which means you also understand that you should have understood it twenty years ago. The math, as they say, is mathing.';
+  } else if (age < 60) {
+    currency = 'Peace and Quiet';
+    caption = 'At ' + age + ', your currency is silence\u2014the exquisite, hard-won silence of a house in which no one is asking you for anything. You have begun to understand that noise is a tax levied on the middle-aged, and you would very much like a refund.';
+  } else if (age < 70) {
+    currency = 'Time';
+    caption = 'Time is your currency now, and you spend it with the care of someone who has finally read the fine print. Every morning is a dividend. Every unscheduled afternoon is a small act of rebellion against the decades you spent in meetings.';
+  } else if (age < 80) {
+    currency = 'Good Health';
+    caption = 'At ' + age + ', you have discovered that health is the currency that underwrites all others. You discuss your joints with the same intensity you once reserved for politics. Your doctor is, in many ways, your financial advisor.';
+  } else if (age < 90) {
+    currency = 'Good Company';
+    caption = 'You are ' + age + ', and your currency is the company of people who have known you long enough to laugh at the right things. Everything else\u2014money, status, the opinions of strangers\u2014has been marked down to clearance. The conversation, however, appreciates.';
+  } else {
+    currency = 'Perspective';
+    caption = 'At the distinguished age of ' + age + ', you have outlasted most of your concerns and all of your grudges. Your currency is perspective\u2014the long view, the gentle amusement of someone who has seen every market crash and every recovery. You are, in the truest sense, rich.';
+  }
+
+  const responseEl = document.getElementById('response');
+  const currencyEl = document.getElementById('response-currency');
+  const captionEl = document.getElementById('response-caption');
+  const signEl = document.getElementById('response-sign');
+
+  responseEl.classList.remove('show');
+
+  setTimeout(() => {
+    currencyEl.textContent = 'Your Currency: ' + currency;
+    captionEl.textContent = caption;
+    signEl.textContent = '\u2014 The Editors';
+    responseEl.classList.add('show');
+  }, 200);
+}
+
+// Allow Enter key
+document.getElementById('age-input').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') {
+    generateCaption();
+  }
+});
+</script>
+
+</body>
+</html>

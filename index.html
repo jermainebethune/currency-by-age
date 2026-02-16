@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Principal Currencies by Age — An Interactive Essay</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Libre+Franklin:wght@300;400;500;600;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --black: #121212;
+            --near-black: #1a1a1a;
+            --dark-gray: #333;
+            --medium-gray: #666;
+            --light-gray: #999;
+            --border-gray: #dfdfdf;
+            --pale-gray: #f7f7f5;
+            --white: #fff;
+            --accent: #567B95;
+            --serif: 'Playfair Display', 'Georgia', serif;
+            --body-serif: 'Libre Baskerville', 'Georgia', serif;
+            --sans: 'Libre Franklin', 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--body-serif);
+            background: var(--white);
+            color: var(--black);
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* ============ TOP NAV BAR ============ */
+        .topbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: var(--white);
+            border-bottom: 1px solid var(--border-gray);
+            transition: transform 0.3s ease;
+        }
+
+        .topbar-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .topbar-label {
+            font-family: var(--sans);
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--light-gray);
+        }
+
+        /* ============ PROGRESS BAR ============ */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--black);
+            width: 0%;
+            z-index: 1001;
+            transition: width 0.1s linear;
+        }
+
+        /* ============ HERO ============ */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 120px 24px 80px;
+            position: relative;
+            background: var(--white);
+        }
+
+        .hero-kicker {
+            font-family: var(--sans);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--light-gray);
+            margin-bottom: 28px;
+        }
+
+        .hero h1 {
+            font-family: var(--serif);
+            font-size: clamp(3rem, 7vw, 6rem);
+            font-weight: 900;
+            line-height: 1.05;
+            color: var(--black);
+            max-width: 800px;
+            margin-bottom: 32px;
+        }
+
+        .hero-deck {
+            font-family: var(--body-serif);
+            font-size: clamp(1.1rem, 2vw, 1.35rem);
+            color: var(--medium-gray);
+            max-width: 540px;
+            line-height: 1.7;
+            margin-bottom: 40px;
+        }
+
+        .hero-byline {
+            font-family: var(--sans);
+            font-size: 0.8rem;
+            color: var(--light-gray);
+            letter-spacing: 0.03em;
+        }
+
+        .hero-byline strong {
+            color: var(--dark-gray);
+            font-weight: 600;
+        }
+
+        .hero-scroll-cue {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            opacity: 0.4;
+            animation: pulse 2s ease infinite;
+        }
+
+        .hero-scroll-cue span {
+            font-family: var(--sans);
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--light-gray);
+        }
+
+        .hero-scroll-cue svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; transform: translateX(-50%) translateY(0); }
+            50% { opacity: 0.6; transform: translateX(-50%) translateY(6px); }
+        }
+
+        .rule {
+            width: 80px;
+            height: 1px;
+            background: var(--black);
+            margin: 0 auto 40px;
+        }
+
+        /* ============ SECTION: CURRENCY ITEMS ============ */
+        .currency-section {
+            position: relative;
+        }
+
+        .currency-item {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .currency-item:nth-child(odd) {
+            background: var(--white);
+        }
+
+        .currency-item:nth-child(even) {
+            background: var(--pale-gray);
+        }
+
+        .currency-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 80px 40px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+            width: 100%;
+        }
+
+        .currency-item:nth-child(even) .currency-inner {
+            direction: rtl;
+        }
+
+        .currency-item:nth-child(even) .currency-inner > * {
+            direction: ltr;
+        }
+
+        .currency-text {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .currency-item.in-view .currency-text {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .currency-age {
+            font-family: var(--sans);
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--accent);
+            margin-bottom: 16px;
+        }
+
+        .currency-title {
+            font-family: var(--serif);
+            font-size: clamp(2.4rem, 4.5vw, 3.6rem);
+            font-weight: 900;
+            line-height: 1.1;
+            color: var(--black);
+            margin-bottom: 24px;
+        }
+
+        .currency-body {
+            font-family: var(--body-serif);
+            font-size: 1.05rem;
+            line-height: 1.85;
+            color: var(--dark-gray);
+            max-width: 440px;
+        }
+
+        .currency-body .pull-quote {
+            display: block;
+            font-family: var(--serif);
+            font-style: italic;
+            font-size: 1.3rem;
+            line-height: 1.6;
+            color: var(--black);
+            border-left: 3px solid var(--black);
+            padding-left: 20px;
+            margin: 28px 0;
+        }
+
+        /* Illustration panels */
+        .currency-visual {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: scale(0.92);
+            transition: opacity 1s ease 0.2s, transform 1s ease 0.2s;
+        }
+
+        .currency-item.in-view .currency-visual {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .visual-frame {
+            width: 100%;
+            max-width: 400px;
+            aspect-ratio: 1;
+            background: var(--white);
+            border: 1px solid var(--border-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .currency-item:nth-child(even) .visual-frame {
+            background: var(--white);
+        }
+
+        .visual-frame svg {
+            width: 70%;
+            height: 70%;
+        }
+
+        .visual-frame .frame-label {
+            position: absolute;
+            bottom: 12px;
+            right: 16px;
+            font-family: var(--sans);
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--light-gray);
+        }
+
+        /* ============ INTERLUDE / PULL SECTION ============ */
+        .interlude {
+            background: var(--black);
+            color: var(--white);
+            padding: 120px 24px;
+            text-align: center;
+        }
+
+        .interlude-inner {
+            max-width: 680px;
+            margin: 0 auto;
+        }
+
+        .interlude blockquote {
+            font-family: var(--serif);
+            font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+            font-style: italic;
+            line-height: 1.5;
+            font-weight: 400;
+            margin-bottom: 28px;
+        }
+
+        .interlude cite {
+            font-family: var(--sans);
+            font-size: 0.8rem;
+            font-style: normal;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--light-gray);
+        }
+
+        /* ============ INTERACTIVE SECTION ============ */
+        .interactive {
+            padding: 100px 24px 120px;
+            text-align: center;
+            background: var(--white);
+            border-top: 1px solid var(--border-gray);
+        }
+
+        .interactive-inner {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .interactive-kicker {
+            font-family: var(--sans);
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--light-gray);
+            margin-bottom: 20px;
+        }
+
+        .interactive h2 {
+            font-family: var(--serif);
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--black);
+        }
+
+        .interactive .subtitle {
+            font-family: var(--body-serif);
+            font-size: 1.05rem;
+            color: var(--medium-gray);
+            line-height: 1.7;
+            margin-bottom: 50px;
+        }
+
+        .age-input-wrapper {
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 50px;
+        }
+
+        .age-input-wrapper label {
+            font-family: var(--sans);
+            font-size: 0.85rem;
+            color: var(--medium-gray);
+            font-weight: 500;
+        }
+
+        .age-field {
+            font-family: var(--serif);
+            font-size: 3rem;
+            font-weight: 700;
+            width: 120px;
+            text-align: center;
+            border: none;
+            border-bottom: 2px solid var(--black);
+            background: transparent;
+            color: var(--black);
+            outline: none;
+            padding-bottom: 4px;
+        }
+
+        .age-field::placeholder {
+            color: var(--border-gray);
+        }
+
+        /* Result card */
+        .result-card {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s, transform 0.5s;
+            pointer-events: none;
+        }
+
+        .result-card.show {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .result-card-inner {
+            border: 1px solid var(--border-gray);
+            padding: 48px 40px;
+            max-width: 460px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .result-age-bracket {
+            font-family: var(--sans);
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+
+        .result-icon {
+            font-size: 4rem;
+            margin-bottom: 16px;
+            display: block;
+            line-height: 1;
+        }
+
+        .result-name {
+            font-family: var(--serif);
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: var(--black);
+            margin-bottom: 12px;
+        }
+
+        .result-desc {
+            font-family: var(--body-serif);
+            font-size: 1rem;
+            color: var(--medium-gray);
+            line-height: 1.7;
+            font-style: italic;
+        }
+
+        .result-bar {
+            margin-top: 32px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .result-bar-segment {
+            height: 4px;
+            border-radius: 2px;
+            background: var(--border-gray);
+            flex: 1;
+            max-width: 40px;
+            transition: background 0.3s;
+        }
+
+        .result-bar-segment.active {
+            background: var(--black);
+        }
+
+        /* ============ FOOTER ============ */
+        footer {
+            border-top: 1px solid var(--border-gray);
+            padding: 40px 24px;
+            text-align: center;
+        }
+
+        .footer-inner {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        footer p {
+            font-family: var(--sans);
+            font-size: 0.75rem;
+            color: var(--light-gray);
+            line-height: 1.8;
+        }
+
+        footer .footer-rule {
+            width: 40px;
+            height: 1px;
+            background: var(--border-gray);
+            margin: 0 auto 20px;
+        }
+
+        /* ============ SIDE CHAPTER NAV ============ */
+        .chapter-nav {
+            position: fixed;
+            right: 24px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 18px;
+        }
+
+        .chapter-dot {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .chapter-dot-label {
+            font-family: var(--sans);
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: transparent;
+            transition: color 0.3s;
+            white-space: nowrap;
+        }
+
+        .chapter-dot:hover .chapter-dot-label {
+            color: var(--light-gray);
+        }
+
+        .chapter-dot-circle {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            border: 1.5px solid var(--border-gray);
+            background: transparent;
+            transition: background 0.3s, border-color 0.3s, transform 0.3s;
+        }
+
+        .chapter-dot.active .chapter-dot-circle {
+            background: var(--black);
+            border-color: var(--black);
+            transform: scale(1.3);
+        }
+
+        /* ============ RESPONSIVE ============ */
+        @media (max-width: 768px) {
+            .currency-inner {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                padding: 60px 24px;
+            }
+
+            .currency-item:nth-child(even) .currency-inner {
+                direction: ltr;
+            }
+
+            .visual-frame {
+                max-width: 300px;
+                margin: 0 auto;
+            }
+
+            .chapter-nav { display: none; }
+
+            .currency-item { min-height: auto; }
+
+            .hero { min-height: 90vh; padding: 100px 24px 60px; }
+
+            .interlude { padding: 80px 24px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Progress bar -->
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- Top bar -->
+<div class="topbar" id="topbar">
+    <div class="topbar-inner">
+        <span class="topbar-label">Principal Currencies by Age &mdash; An Interactive Essay</span>
+    </div>
+</div>
+
+<!-- Chapter nav -->
+<nav class="chapter-nav" id="chapterNav"></nav>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="hero">
+    <div class="hero-kicker">Life &amp; Economy of Meaning</div>
+    <h1>Principal Currencies by Age</h1>
+    <div class="rule"></div>
+    <p class="hero-deck">
+        The things we trade for happiness change as we grow.
+        At every stage of life, there is one resource more
+        valuable than all others.
+    </p>
+    <p class="hero-byline">
+        <strong>An illustrated guide</strong> &middot; 4 min read
+    </p>
+    <div class="hero-scroll-cue">
+        <span>Scroll</span>
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M10 4 L10 16 M5 11 L10 16 L15 11"/>
+        </svg>
+    </div>
+</section>
+
+<!-- ============ CURRENCIES ============ -->
+<section class="currency-section" id="currencySection">
+
+    <!-- 1 YR — Blocks -->
+    <div class="currency-item" data-chapter="Blocks">
+        <div class="currency-inner">
+            <div class="currency-text">
+                <div class="currency-age">Age 1</div>
+                <h2 class="currency-title">Blocks</h2>
+                <div class="currency-body">
+                    <p>Before language, before money, before any concept of exchange &mdash; there are blocks. Wooden, plastic, soft-cornered. They are the first economy a child understands.</p>
+                    <span class="pull-quote">&ldquo;Stack them high. Watch them fall. The joy is in the building, not the tower.&rdquo;</span>
+                    <p>At one year old, wealth is measured in how many you can clutch in two small hands. Sharing is not yet a concept. The market is pure, unregulated monopoly.</p>
+                </div>
+            </div>
+            <div class="currency-visual">
+                <div class="visual-frame">
+                    <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g stroke="var(--black)" stroke-width="1.5" stroke-linejoin="round">
+                            <path d="M70 90 L110 90 L110 130 L70 130Z" fill="#e8e4dd"/>
+                            <path d="M70 90 L88 72 L128 72 L110 90" fill="#f0ece5"/>
+                            <path d="M110 90 L128 72 L128 112 L110 130" fill="#ddd9d2"/>
+                            <path d="M85 55 L115 55 L115 88 L85 88Z" fill="#f5f2ec"/>
+                            <path d="M85 55 L100 42 L130 42 L115 55" fill="#eae7e0"/>
+                            <path d="M115 55 L130 42 L130 75 L115 88" fill="#e0ddd6"/>
+                            <path d="M48 108 L78 108 L78 148 L48 148Z" fill="#f0ece5"/>
+                            <path d="M48 108 L63 95 L93 95 L78 108" fill="#f5f2ec"/>
+                            <path d="M78 108 L93 95 L93 135 L78 148" fill="#e8e4dd"/>
+                        </g>
+                    </svg>
+                    <span class="frame-label">Illustration</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 5 YRS — Cookies -->
+    <div class="currency-item" data-chapter="Cookies">
+        <div class="currency-inner">
+            <div class="currency-text">
+                <div class="currency-age">Age 5</div>
+                <h2 class="currency-title">Cookies</h2>
+                <div class="currency-body">
+                    <p>By five, a child has discovered the first true medium of exchange. Cookies can be earned through good behavior, bargained for at bedtime, and — in rare cases — stolen from the jar at great personal risk.</p>
+                    <span class="pull-quote">&ldquo;I&rsquo;ll be good&rdquo; is worth one cookie. &ldquo;I&rsquo;ll be really good&rdquo; is worth two. This is where negotiation begins.</span>
+                    <p>The chocolate chip cookie is the gold standard. Oatmeal raisin is a devalued currency that nobody asked for.</p>
+                </div>
+            </div>
+            <div class="currency-visual">
+                <div class="visual-frame">
+                    <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g stroke="var(--black)" stroke-width="1.5">
+                            <circle cx="85" cy="100" r="38" fill="#d8c4a0"/>
+                            <circle cx="72" cy="88" r="5" fill="var(--dark-gray)"/>
+                            <circle cx="95" cy="84" r="4" fill="var(--dark-gray)"/>
+                            <circle cx="78" cy="108" r="4.5" fill="var(--dark-gray)"/>
+                            <circle cx="98" cy="104" r="4" fill="var(--dark-gray)"/>
+                            <circle cx="86" cy="95" r="3.5" fill="var(--dark-gray)"/>
+                            <circle cx="140" cy="78" r="26" fill="#dcc8a4"/>
+                            <circle cx="132" cy="70" r="3.5" fill="var(--dark-gray)"/>
+                            <circle cx="148" cy="68" r="3" fill="var(--dark-gray)"/>
+                            <circle cx="138" cy="85" r="3" fill="var(--dark-gray)"/>
+                            <circle cx="145" cy="135" r="18" fill="#d8c4a0"/>
+                            <circle cx="140" cy="130" r="3" fill="var(--dark-gray)"/>
+                            <circle cx="152" cy="132" r="2.5" fill="var(--dark-gray)"/>
+                            <circle cx="145" cy="142" r="2.5" fill="var(--dark-gray)"/>
+                            <circle cx="168" cy="112" r="3" fill="#d8c4a0" stroke="none"/>
+                            <circle cx="172" cy="148" r="2" fill="#cbb894" stroke="none"/>
+                            <circle cx="178" cy="130" r="1.5" fill="#d8c4a0" stroke="none"/>
+                        </g>
+                    </svg>
+                    <span class="frame-label">Illustration</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 16 YRS — Car Rides -->
+    <div class="currency-item" data-chapter="Car Rides">
+        <div class="currency-inner">
+            <div class="currency-text">
+                <div class="currency-age">Age 16</div>
+                <h2 class="currency-title">Car Rides</h2>
+                <div class="currency-body">
+                    <p>At sixteen, the world suddenly expands. Freedom is no longer a concept — it is a set of car keys, a tank of gas, and the open road between your house and everywhere else.</p>
+                    <span class="pull-quote">&ldquo;Whoever has the car holds all the power. The driver chooses the music, the route, and the destiny.&rdquo;</span>
+                    <p>Getting a ride isn&rsquo;t just transportation. It is independence, social currency, and the first taste of adult autonomy wrapped in a steel frame.</p>
+                </div>
+            </div>
+            <div class="currency-visual">
+                <div class="visual-frame">
+                    <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g stroke="var(--black)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M25 115 L35 115 L42 92 L72 82 L138 82 L158 95 L175 100 L175 122 L25 122Z" fill="#eae7e0"/>
+                            <path d="M55 82 L65 58 L120 58 L135 82" fill="#f0ece5"/>
+                            <path d="M72 82 L78 63 L98 63 L98 82" fill="#c8dae5"/>
+                            <path d="M102 82 L102 63 L118 63 L130 82" fill="#c8dae5"/>
+                            <circle cx="55" cy="125" r="16" fill="#333"/>
+                            <circle cx="55" cy="125" r="7" fill="#888"/>
+                            <circle cx="148" cy="125" r="16" fill="#333"/>
+                            <circle cx="148" cy="125" r="7" fill="#888"/>
+                            <circle cx="172" cy="106" r="4" fill="#f0e8c8"/>
+                            <line x1="90" y1="102" x2="108" y2="102"/>
+                            <line x1="8" y1="102" x2="22" y2="102" stroke-dasharray="3 4" opacity="0.4"/>
+                            <line x1="10" y1="112" x2="23" y2="112" stroke-dasharray="3 4" opacity="0.4"/>
+                            <line x1="5" y1="120" x2="22" y2="120" stroke-dasharray="3 4" opacity="0.4"/>
+                        </g>
+                    </svg>
+                    <span class="frame-label">Illustration</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- INTERLUDE -->
+    <div class="interlude">
+        <div class="interlude-inner">
+            <blockquote>&ldquo;We spend our youth chasing things. Then one morning we wake up and realize the things have changed &mdash; and so have we.&rdquo;</blockquote>
+            <cite>On the shifting economy of a life</cite>
+        </div>
+    </div>
+
+    <!-- 25 YRS — Lattes -->
+    <div class="currency-item" data-chapter="Lattes">
+        <div class="currency-inner">
+            <div class="currency-text">
+                <div class="currency-age">Age 25</div>
+                <h2 class="currency-title">Lattes</h2>
+                <div class="currency-body">
+                    <p>In your mid-twenties, coffee becomes more than a beverage. It is a meeting place, a reward system, a personality trait, and — according to certain financial advisors — the only thing standing between you and retirement.</p>
+                    <span class="pull-quote">&ldquo;A $7 latte is not a drink. It is a tiny act of defiance against adulthood.&rdquo;</span>
+                    <p>The oat milk upgrade is not optional. It is an identity statement. Every friendship, every work problem, every existential crisis begins with &ldquo;let&rsquo;s grab coffee.&rdquo;</p>
+                </div>
+            </div>
+            <div class="currency-visual">
+                <div class="visual-frame">
+                    <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g stroke="var(--black)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M62 70 L56 162 L144 162 L138 70Z" fill="#eae7e0"/>
+                            <path d="M58 70 L142 70 L138 58 L62 58Z" fill="#ddd9d2"/>
+                            <path d="M70 58 L76 48 L124 48 L130 58" fill="#d5d1ca"/>
+                            <rect x="88" y="48" width="20" height="5" rx="2.5" fill="var(--medium-gray)"/>
+                            <path d="M80 40 Q84 25, 80 10" fill="none" stroke="#ccc" stroke-width="1.5"/>
+                            <path d="M100 37 Q104 22, 100 7" fill="none" stroke="#ccc" stroke-width="1.5"/>
+                            <path d="M120 40 Q124 25, 120 10" fill="none" stroke="#ccc" stroke-width="1.5"/>
+                            <rect x="64" y="95" width="72" height="30" rx="4" fill="#d5c4a0"/>
+                            <line x1="60" y1="140" x2="140" y2="140" opacity="0.3"/>
+                            <line x1="59" y1="148" x2="141" y2="148" opacity="0.3"/>
+                            <line x1="57" y1="156" x2="143" y2="156" opacity="0.3"/>
+                        </g>
+                    </svg>
+                    <span class="frame-label">Illustration</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 31 YRS — Sleep -->
+    <div class="currency-item" data-chapter="Sleep">
+        <div class="currency-inner">
+            <div class="currency-text">
+                <div class="currency-age">Age 31</div>
+                <h2 class="currency-title">Sleep</h2>
+                <div class="currency-body">
+                    <p>Somewhere around thirty, sleep transitions from a default state of existence into the most precious commodity on Earth. New parents discover this first, but everyone arrives eventually.</p>
+                    <span class="pull-quote">&ldquo;You would trade your car, your savings, possibly your firstborn &mdash; briefly &mdash; for one uninterrupted night.&rdquo;</span>
+                    <p>Eight hours becomes aspirational. Six becomes realistic. &ldquo;I slept great&rdquo; becomes the new &ldquo;I got a raise.&rdquo; Naps are no longer lazy. They are strategic.</p>
+                </div>
+            </div>
+            <div class="currency-visual">
+                <div class="visual-frame">
+                    <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g stroke="var(--black)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <ellipse cx="100" cy="130" rx="62" ry="26" fill="#eae7e0"/>
+                            <circle cx="100" cy="108" r="35" fill="#f5f2ec"/>
+                            <path d="M82 108 Q88 102, 94 108" fill="none"/>
+                            <path d="M106 108 Q112 102, 118 108" fill="none"/>
+                            <path d="M92 120 Q100 126, 108 120" fill="none"/>
+                            <path d="M65 98 Q70 68, 100 60 Q130 68, 135 98" fill="none" stroke-width="2"/>
+                            <text x="138" y="72" font-family="Georgia, serif" font-size="24" fill="var(--black)" font-weight="700">Z</text>
+                            <text x="155" y="55" font-family="Georgia, serif" font-size="18" fill="var(--medium-gray)" font-weight="700">z</text>
+                            <text x="168" y="42" font-family="Georgia, serif" font-size="13" fill="var(--light-gray)" font-weight="700">z</text>
+                            <path d="M42 138 Q100 118, 158 138 L165 170 L35 170Z" fill="#ddd9d2"/>
+                            <ellipse cx="32" cy="78" rx="26" ry="16" fill="var(--white)" stroke-width="1.5"/>
+                            <path d="M48 90 L42 104 L52 92" fill="var(--white)" stroke-width="1.5"/>
+                            <text x="16" y="83" font-family="Georgia, serif" font-size="12" fill="var(--black)" font-style="italic">wahh!</text>
+                        </g>
+                    </svg>
+                    <span class="frame-label">Illustration</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 45 YRS — Actual Money -->
+    <div class="currency-item" data-chapter="Money">
+        <div class="currency-inner">
+            <div class="currency-text">
+                <div class="currency-age">Age 45</div>
+                <h2 class="currency-title">Actual Money</h2>
+                <div class="currency-body">
+                    <p>After decades of trading in blocks, cookies, rides, caffeine, and sleep &mdash; you arrive at the one currency that society actually runs on. Mortgages. College funds. Retirement accounts. Insurance.</p>
+                    <span class="pull-quote">&ldquo;At forty-five, you finally understand what your parents were always talking about.&rdquo;</span>
+                    <p>The irony, of course, is that by the time you truly appreciate money, you&rsquo;ve already begun to suspect it isn&rsquo;t the most valuable thing after all.</p>
+                </div>
+            </div>
+            <div class="currency-visual">
+                <div class="visual-frame">
+                    <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g stroke="var(--black)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="22" y="48" width="120" height="65" rx="5" fill="#c8d4bc" transform="rotate(-4 82 80)"/>
+                            <rect x="32" y="58" width="120" height="65" rx="5" fill="#d5e0c8"/>
+                            <circle cx="92" cy="88" r="20" fill="#bccaae"/>
+                            <circle cx="87" cy="84" r="2.5" fill="var(--black)"/>
+                            <circle cx="97" cy="84" r="2.5" fill="var(--black)"/>
+                            <path d="M87 95 Q92 100, 97 95" fill="none"/>
+                            <text x="42" y="78" font-family="Georgia, serif" font-size="16" fill="var(--dark-gray)" font-weight="700">100</text>
+                            <text x="125" y="78" font-family="Georgia, serif" font-size="16" fill="var(--dark-gray)" font-weight="700">100</text>
+                            <circle cx="58" cy="148" r="18" fill="#e8d870" stroke="#c8b840"/>
+                            <circle cx="58" cy="148" r="13" fill="none" stroke="#c8b840" stroke-width="1"/>
+                            <text x="52" y="154" font-family="Georgia, serif" font-size="16" fill="#8a7a20" font-weight="700">$</text>
+                            <circle cx="84" cy="155" r="14" fill="#e0d060" stroke="#c8b840"/>
+                            <circle cx="84" cy="155" r="10" fill="none" stroke="#c8b840" stroke-width="1"/>
+                            <text x="79" y="160" font-family="Georgia, serif" font-size="13" fill="#8a7a20" font-weight="700">$</text>
+                        </g>
+                    </svg>
+                    <span class="frame-label">Illustration</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 61 YRS — Time -->
+    <div class="currency-item" data-chapter="Time">
+        <div class="currency-inner">
+            <div class="currency-text">
+                <div class="currency-age">Age 61</div>
+                <h2 class="currency-title">Time</h2>
+                <div class="currency-body">
+                    <p>At sixty-one, you have held every currency there is. You have stacked blocks, hoarded cookies, chased rides, sipped lattes, craved sleep, and earned money. And now you understand the one thing that was always underneath them all.</p>
+                    <span class="pull-quote">&ldquo;Time. More of it with the people you love, doing the things that matter. No amount of money can buy it back.&rdquo;</span>
+                    <p>This is the final currency. The one you cannot earn, save, or invest. Only spend &mdash; wisely, if you&rsquo;re lucky enough to know it.</p>
+                </div>
+            </div>
+            <div class="currency-visual">
+                <div class="visual-frame">
+                    <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g stroke="var(--black)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="100" cy="105" r="58" fill="var(--white)"/>
+                            <circle cx="100" cy="105" r="62" fill="none" stroke-width="3"/>
+                            <line x1="100" y1="50" x2="100" y2="58"/>
+                            <line x1="100" y1="152" x2="100" y2="160"/>
+                            <line x1="45" y1="105" x2="53" y2="105"/>
+                            <line x1="147" y1="105" x2="155" y2="105"/>
+                            <line x1="60" y1="66" x2="65" y2="71"/>
+                            <line x1="135" y1="71" x2="140" y2="66"/>
+                            <line x1="60" y1="144" x2="65" y2="139"/>
+                            <line x1="135" y1="139" x2="140" y2="144"/>
+                            <line x1="100" y1="105" x2="82" y2="78" stroke-width="3.5"/>
+                            <line x1="100" y1="105" x2="118" y2="62" stroke-width="2.5"/>
+                            <circle cx="100" cy="105" r="5" fill="var(--black)"/>
+                            <path d="M88 43 Q100 30, 112 43" fill="none" stroke-width="2.5"/>
+                        </g>
+                    </svg>
+                    <span class="frame-label">Illustration</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<!-- ============ INTERACTIVE ============ -->
+<section class="interactive" id="interactive">
+    <div class="interactive-inner">
+        <div class="interactive-kicker">Interactive</div>
+        <h2>What&rsquo;s Your Currency?</h2>
+        <p class="subtitle">Enter your age and we&rsquo;ll tell you what you&rsquo;re really trading in right now.</p>
+
+        <div class="age-input-wrapper">
+            <label for="ageField">Age</label>
+            <input type="number" class="age-field" id="ageField" min="0" max="120" placeholder="&mdash;">
+        </div>
+
+        <div class="result-card" id="resultCard">
+            <div class="result-card-inner">
+                <div class="result-age-bracket" id="resultBracket"></div>
+                <span class="result-icon" id="resultIcon"></span>
+                <div class="result-name" id="resultName"></div>
+                <div class="result-desc" id="resultDesc"></div>
+                <div class="result-bar" id="resultBar"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+    <div class="footer-inner">
+        <div class="footer-rule"></div>
+        <p>
+            An illustrated essay on the shifting economies of a life.<br>
+            Inspired by the observation that what we value most is never what we expected.
+        </p>
+    </div>
+</footer>
+
+<script>
+    // ====== Scroll progress bar ======
+    const progressBar = document.getElementById('progressBar');
+
+    function updateProgress() {
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+        progressBar.style.width = pct + '%';
+    }
+
+    // ====== Scroll reveal for currency items ======
+    const items = document.querySelectorAll('.currency-item');
+
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('in-view');
+            }
+        });
+    }, { threshold: 0.15 });
+
+    items.forEach(item => revealObserver.observe(item));
+
+    // ====== Chapter nav ======
+    const chapterNav = document.getElementById('chapterNav');
+    const chapters = document.querySelectorAll('[data-chapter]');
+
+    chapters.forEach(ch => {
+        const dot = document.createElement('div');
+        dot.className = 'chapter-dot';
+        dot.innerHTML = `
+            <span class="chapter-dot-label">${ch.dataset.chapter}</span>
+            <span class="chapter-dot-circle"></span>
+        `;
+        dot.addEventListener('click', () => {
+            ch.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        });
+        chapterNav.appendChild(dot);
+    });
+
+    const chapterDots = chapterNav.querySelectorAll('.chapter-dot');
+
+    const chapterObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            const idx = Array.from(chapters).indexOf(entry.target);
+            if (idx >= 0 && entry.isIntersecting) {
+                chapterDots.forEach((d, i) => d.classList.toggle('active', i === idx));
+            }
+        });
+    }, { threshold: 0.4 });
+
+    chapters.forEach(ch => chapterObserver.observe(ch));
+
+    // ====== Hide/show topbar ======
+    let lastScroll = 0;
+    const topbar = document.getElementById('topbar');
+
+    function handleScroll() {
+        updateProgress();
+
+        const current = window.scrollY;
+        if (current > 300) {
+            topbar.style.transform = current > lastScroll ? 'translateY(-100%)' : 'translateY(0)';
+        } else {
+            topbar.style.transform = 'translateY(0)';
+        }
+        lastScroll = current;
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    // ====== Interactive age input ======
+    const ageField = document.getElementById('ageField');
+    const resultCard = document.getElementById('resultCard');
+
+    const currencies = [
+        { max: 2, icon: '\u{1F9F1}', name: 'Blocks', bracket: 'The Builder', desc: 'Your entire economy is tactile. If you can stack it, it has value. If it falls down, that\'s even better.' },
+        { max: 4, icon: '\u{1F58D}', name: 'Crayons', bracket: 'The Artist', desc: 'The 64-pack with the built-in sharpener is the ultimate status symbol of your generation.' },
+        { max: 7, icon: '\u{1F36A}', name: 'Cookies', bracket: 'The Negotiator', desc: 'You have discovered that good behavior is a commodity with a surprisingly predictable exchange rate.' },
+        { max: 10, icon: '\u{1F3AE}', name: 'Screen Time', bracket: 'The Gamer', desc: '"Just five more minutes" is the opening bid in every negotiation you enter.' },
+        { max: 13, icon: '\u{1F45F}', name: 'Cool Shoes', bracket: 'The Trend Follower', desc: 'Social capital is measured in footwear. The right pair changes everything.' },
+        { max: 15, icon: '\u{1F4F1}', name: 'Phone Access', bracket: 'The Connected', desc: 'Unlimited data is freedom. A dead battery is an existential crisis.' },
+        { max: 18, icon: '\u{1F697}', name: 'Car Rides', bracket: 'The Free One', desc: 'Whoever holds the keys holds the power. You would do almost anything for a ride.' },
+        { max: 22, icon: '\u{1F393}', name: 'Credentials', bracket: 'The Striver', desc: 'GPA, internships, LinkedIn connections. The resume is your balance sheet.' },
+        { max: 26, icon: '\u2615', name: 'Lattes', bracket: 'The Caffeinated', desc: 'Every meeting, every crisis, every celebration starts with "let\'s grab coffee."' },
+        { max: 30, icon: '\u{1F4BC}', name: 'Career Moves', bracket: 'The Climber', desc: 'Title changes, salary bumps, benefits packages. You are fluent in the language of compensation.' },
+        { max: 35, icon: '\u{1F634}', name: 'Sleep', bracket: 'The Exhausted', desc: 'You would trade almost any possession for eight uninterrupted hours. This is not an exaggeration.' },
+        { max: 40, icon: '\u{1F3E1}', name: 'Quiet Weekends', bracket: 'The Settler', desc: 'No plans is the plan. Cancelled plans are the greatest gift anyone can give you.' },
+        { max: 50, icon: '\u{1F4B0}', name: 'Actual Money', bracket: 'The Realist', desc: 'Mortgages, tuition, retirement. After decades of abstraction, the literal currency finally takes center stage.' },
+        { max: 60, icon: '\u2764\uFE0F', name: 'Good Health', bracket: 'The Aware', desc: 'Your body has started sending invoices for decades of neglect. You pay them willingly now.' },
+        { max: 75, icon: '\u23F0', name: 'Time', bracket: 'The Wise', desc: 'The final currency. The one that was always underneath everything else, quietly running out.' },
+        { max: 120, icon: '\u2728', name: 'Legacy', bracket: 'The Elder', desc: 'You have held every currency there is. What you leave behind is the only one that compounds forever.' },
+    ];
+
+    ageField.addEventListener('input', () => {
+        const age = parseInt(ageField.value);
+        if (isNaN(age) || age < 0) {
+            resultCard.classList.remove('show');
+            return;
+        }
+
+        const match = currencies.find(c => age <= c.max);
+        if (!match) return;
+
+        const idx = currencies.indexOf(match);
+
+        document.getElementById('resultBracket').textContent = match.bracket;
+        document.getElementById('resultIcon').textContent = match.icon;
+        document.getElementById('resultName').textContent = match.name;
+        document.getElementById('resultDesc').textContent = match.desc;
+
+        // Progress bar
+        const barHTML = currencies.map((c, i) =>
+            `<div class="result-bar-segment ${i <= idx ? 'active' : ''}"></div>`
+        ).join('');
+        document.getElementById('resultBar').innerHTML = barHTML;
+
+        resultCard.classList.add('show');
+    });
+</script>
+
+</body>
+</html>

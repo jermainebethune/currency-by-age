@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Principal Currencies by Age — The Wall Street Journal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,700;0,8..60,900;1,8..60,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --black: #121212;
+    --white: #FFFFFF;
+    --cream: #F4EFEB;
+    --light-cream: #FAF8F5;
+    --tan: #E9E2DA;
+    --gray-dark: #555555;
+    --gray-mid: #888888;
+    --gray-light: #CCCCCC;
+    --gray-rule: #333333;
+    --green: #2E7D32;
+    --green-bg: #E8F5E9;
+    --red: #C62828;
+    --red-bg: #FFEBEE;
+    --font-headline: 'Source Serif 4', 'Georgia', serif;
+    --font-body: 'Inter', 'Retina', 'Helvetica Neue', Arial, sans-serif;
+  }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--white);
+    color: var(--black);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── WSJ MASTHEAD ── */
+  .masthead {
+    text-align: center;
+    padding: 18px 20px 14px;
+    border-bottom: 2px solid var(--black);
+  }
+  .masthead-date {
+    font-family: var(--font-body);
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    color: var(--gray-mid);
+    margin-bottom: 6px;
+  }
+  .masthead-title {
+    font-family: var(--font-headline);
+    font-size: 32px;
+    font-weight: 900;
+    letter-spacing: 1.5px;
+    line-height: 1.1;
+  }
+  .masthead-subtitle {
+    font-family: var(--font-body);
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gray-dark);
+    margin-top: 4px;
+  }
+
+  /* ── NAV BAR ── */
+  .nav-bar {
+    display: flex;
+    justify-content: center;
+    gap: 28px;
+    padding: 10px 20px;
+    border-bottom: 1px solid var(--gray-light);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--gray-dark);
+    background: var(--light-cream);
+  }
+  .nav-bar span { cursor: default; }
+  .nav-bar span.active { color: var(--black); border-bottom: 2px solid var(--black); padding-bottom: 2px; }
+
+  /* ── TICKER ── */
+  .ticker-wrap {
+    overflow: hidden;
+    background: var(--black);
+    color: var(--white);
+    padding: 8px 0;
+    border-bottom: 1px solid var(--gray-dark);
+  }
+  .ticker-track {
+    display: flex;
+    white-space: nowrap;
+    animation: tickerScroll 30s linear infinite;
+  }
+  .ticker-track:hover { animation-play-state: paused; }
+  @keyframes tickerScroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  .ticker-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 24px;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: var(--font-body);
+    letter-spacing: 0.3px;
+  }
+  .ticker-symbol {
+    color: #FFD54F;
+    font-weight: 700;
+  }
+  .ticker-price { color: #ccc; }
+  .ticker-change { font-size: 11px; font-weight: 700; }
+  .ticker-change.up { color: #66BB6A; }
+  .ticker-change.down { color: #EF5350; }
+  .ticker-arrow { font-size: 9px; }
+
+  /* ── ARTICLE HEADER ── */
+  .article-header {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 48px 20px 32px;
+    text-align: center;
+  }
+  .article-section-label {
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--gray-mid);
+    margin-bottom: 16px;
+  }
+  .article-headline {
+    font-family: var(--font-headline);
+    font-size: 44px;
+    font-weight: 900;
+    line-height: 1.12;
+    margin-bottom: 16px;
+    letter-spacing: -0.5px;
+  }
+  .article-deck {
+    font-family: var(--font-headline);
+    font-size: 20px;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--gray-dark);
+    line-height: 1.5;
+    max-width: 560px;
+    margin: 0 auto 20px;
+  }
+  .article-byline {
+    font-size: 12px;
+    color: var(--gray-mid);
+    letter-spacing: 0.3px;
+  }
+  .article-byline strong {
+    color: var(--black);
+    font-weight: 600;
+  }
+  .article-rule {
+    width: 60px;
+    height: 2px;
+    background: var(--black);
+    margin: 24px auto 0;
+  }
+
+  /* ── INTRO ── */
+  .intro {
+    max-width: 660px;
+    margin: 0 auto;
+    padding: 0 20px 40px;
+  }
+  .intro p {
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.75;
+    color: #333;
+    margin-bottom: 16px;
+  }
+  .intro .drop-cap::first-letter {
+    font-family: var(--font-headline);
+    font-size: 64px;
+    font-weight: 900;
+    float: left;
+    line-height: 0.85;
+    margin-right: 8px;
+    margin-top: 4px;
+    color: var(--black);
+  }
+
+  /* ── CURRENCY GRID ── */
+  .currencies-section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  .section-rule-full {
+    border: none;
+    border-top: 2px solid var(--black);
+    margin: 0 0 40px 0;
+  }
+  .currency-card {
+    display: grid;
+    grid-template-columns: 200px 1fr 260px;
+    gap: 32px;
+    padding: 40px 0;
+    border-bottom: 1px solid var(--gray-light);
+  }
+  .currency-card:nth-child(even) {
+    background: var(--light-cream);
+    margin: 0 -20px;
+    padding: 40px 20px;
+  }
+  .currency-card:last-child { border-bottom: none; }
+
+  /* Stipple illustration column */
+  .currency-visual {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .stipple-art {
+    width: 160px;
+    height: 160px;
+    margin-bottom: 12px;
+  }
+  .currency-age-badge {
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gray-mid);
+    margin-bottom: 4px;
+  }
+  .currency-name-badge {
+    font-family: var(--font-headline);
+    font-size: 22px;
+    font-weight: 700;
+  }
+
+  /* Main content column */
+  .currency-content {
+    padding-right: 16px;
+  }
+  .currency-content h3 {
+    font-family: var(--font-headline);
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.25;
+    margin-bottom: 12px;
+  }
+  .currency-content p {
+    font-size: 15px;
+    line-height: 1.72;
+    color: #333;
+    margin-bottom: 12px;
+  }
+  .market-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 700;
+    margin-top: 4px;
+  }
+  .market-indicator.up {
+    background: var(--green-bg);
+    color: var(--green);
+  }
+  .market-indicator.down {
+    background: var(--red-bg);
+    color: var(--red);
+  }
+
+  /* Sidebar column */
+  .currency-sidebar {
+    background: var(--cream);
+    padding: 20px;
+    border-left: 3px solid var(--black);
+  }
+  .currency-card:nth-child(even) .currency-sidebar {
+    background: var(--white);
+  }
+  .sidebar-label {
+    font-family: var(--font-body);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--gray-mid);
+    margin-bottom: 14px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--gray-light);
+  }
+  .sidebar-stat {
+    margin-bottom: 14px;
+  }
+  .sidebar-stat .stat-number {
+    font-family: var(--font-headline);
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--black);
+    line-height: 1.1;
+  }
+  .sidebar-stat .stat-label {
+    font-size: 12px;
+    color: var(--gray-dark);
+    line-height: 1.4;
+    margin-top: 2px;
+  }
+
+  /* ── PORTFOLIO BUILDER ── */
+  .portfolio-section {
+    background: var(--cream);
+    padding: 60px 20px;
+    margin-top: 40px;
+    border-top: 3px solid var(--black);
+  }
+  .portfolio-inner {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .portfolio-section-label {
+    font-family: var(--font-body);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--gray-mid);
+    margin-bottom: 8px;
+  }
+  .portfolio-headline {
+    font-family: var(--font-headline);
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .portfolio-deck {
+    font-size: 15px;
+    color: var(--gray-dark);
+    margin-bottom: 32px;
+  }
+  .portfolio-controls {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+  }
+  .portfolio-controls label {
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .portfolio-controls input[type="range"] {
+    width: 300px;
+    accent-color: var(--black);
+  }
+  .portfolio-age-display {
+    font-family: var(--font-headline);
+    font-size: 36px;
+    font-weight: 700;
+    min-width: 80px;
+  }
+  .portfolio-age-display span {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--gray-mid);
+  }
+  .portfolio-result {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+  .portfolio-chart-wrap {
+    display: flex;
+    justify-content: center;
+  }
+  #portfolioChart {
+    width: 260px;
+    height: 260px;
+  }
+  .portfolio-allocations {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .alloc-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    background: var(--white);
+    border: 1px solid var(--tan);
+  }
+  .alloc-swatch {
+    width: 14px;
+    height: 14px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+  .alloc-label {
+    font-size: 12px;
+    color: var(--gray-dark);
+    line-height: 1.3;
+  }
+  .alloc-label strong {
+    display: block;
+    font-size: 14px;
+    color: var(--black);
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 32px 20px;
+    border-top: 2px solid var(--black);
+    text-align: center;
+    font-size: 11px;
+    color: var(--gray-mid);
+    letter-spacing: 0.3px;
+    line-height: 1.8;
+  }
+  .footer strong { color: var(--gray-dark); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .currency-card {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+    .currency-card:nth-child(even) {
+      margin: 0;
+      padding: 32px 20px;
+    }
+    .currency-visual {
+      flex-direction: row;
+      gap: 16px;
+      text-align: left;
+    }
+    .stipple-art { width: 100px; height: 100px; }
+    .currency-sidebar { border-left: none; border-top: 3px solid var(--black); }
+    .portfolio-result { grid-template-columns: 1fr; }
+    .article-headline { font-size: 32px; }
+    .portfolio-controls input[type="range"] { width: 200px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════ MASTHEAD ════════════ -->
+<header class="masthead">
+  <div class="masthead-date">Monday, February 16, 2026 | Vol. CCLXXXVII No. 39</div>
+  <div class="masthead-title">The Wall Street Journal</div>
+  <div class="masthead-subtitle">Life &amp; Currency Markets</div>
+</header>
+
+<nav class="nav-bar">
+  <span>Home</span>
+  <span>World</span>
+  <span class="active">Markets</span>
+  <span>Life Stages</span>
+  <span>Economy</span>
+  <span>Opinion</span>
+</nav>
+
+<!-- ════════════ TICKER ════════════ -->
+<div class="ticker-wrap">
+  <div class="ticker-track" id="tickerTrack"></div>
+</div>
+
+<!-- ════════════ ARTICLE HEADER ════════════ -->
+<section class="article-header">
+  <div class="article-section-label">Special Report &mdash; Life Markets</div>
+  <h1 class="article-headline">Principal Currencies by Age</h1>
+  <p class="article-deck">What we covet most changes with every passing decade. An investigation into the shifting exchange rates of human desire.</p>
+  <div class="article-byline">By <strong>Staff Reporters</strong> &nbsp;|&nbsp; Feb. 16, 2026 9:41 am ET</div>
+  <div class="article-rule"></div>
+</section>
+
+<!-- ════════════ INTRO ════════════ -->
+<section class="intro">
+  <p class="drop-cap">Forget the dollar, the euro, or the yen. The currencies that truly govern human behavior have never been printed by any central bank. They are earned in cribs, traded in schoolyards, hoarded in cubicles, and spent, often recklessly, at every stage in between. After an exhaustive survey of 14,000 respondents across six continents, this newspaper can now publish the definitive exchange-rate table for what people value most — indexed, as all things should be, by age.</p>
+  <p>The findings will surprise no one who has ever watched a toddler weep over a toppled block tower or a 31-year-old professional pay $47 for a white-noise machine. What is remarkable is the consistency: the data hold across income levels, geographies, and generations. Blocks are universal at one. Sleep is priceless at 31. And by 61, the only currency left worth accumulating is time itself.</p>
+</section>
+
+<!-- ════════════ CURRENCIES ════════════ -->
+<section class="currencies-section">
+  <hr class="section-rule-full">
+
+  <!-- ── 1 YEAR: BLOCKS ── -->
+  <article class="currency-card" id="blocks">
+    <div class="currency-visual">
+      <svg class="stipple-art" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+        <!-- Block tower stipple illustration -->
+        <rect x="50" y="100" width="60" height="45" fill="none" stroke="#222" stroke-width="1.5" rx="2"/>
+        <rect x="55" y="65" width="50" height="38" fill="none" stroke="#222" stroke-width="1.5" rx="2"/>
+        <rect x="62" y="35" width="36" height="33" fill="none" stroke="#222" stroke-width="1.5" rx="2"/>
+        <!-- Stipple fill for bottom block -->
+        <circle cx="58" cy="108" r="1.2" fill="#222"/><circle cx="64" cy="112" r="1" fill="#444"/><circle cx="70" cy="106" r="1.3" fill="#222"/>
+        <circle cx="76" cy="114" r="1" fill="#555"/><circle cx="82" cy="108" r="1.2" fill="#222"/><circle cx="88" cy="118" r="1" fill="#444"/>
+        <circle cx="94" cy="110" r="1.3" fill="#222"/><circle cx="100" cy="116" r="1" fill="#555"/><circle cx="66" cy="120" r="1.1" fill="#333"/>
+        <circle cx="72" cy="126" r="1" fill="#444"/><circle cx="78" cy="122" r="1.2" fill="#222"/><circle cx="84" cy="128" r="1" fill="#555"/>
+        <circle cx="90" cy="124" r="1.1" fill="#333"/><circle cx="96" cy="130" r="1" fill="#444"/><circle cx="60" cy="132" r="1.2" fill="#222"/>
+        <circle cx="68" cy="136" r="1" fill="#444"/><circle cx="76" cy="134" r="1.1" fill="#333"/><circle cx="84" cy="138" r="1" fill="#555"/>
+        <circle cx="92" cy="134" r="1.2" fill="#222"/><circle cx="100" cy="138" r="1" fill="#444"/>
+        <!-- Stipple fill for middle block -->
+        <circle cx="62" cy="72" r="1.1" fill="#222"/><circle cx="68" cy="78" r="1" fill="#444"/><circle cx="74" cy="74" r="1.2" fill="#222"/>
+        <circle cx="80" cy="80" r="1" fill="#555"/><circle cx="86" cy="76" r="1.1" fill="#333"/><circle cx="92" cy="82" r="1" fill="#444"/>
+        <circle cx="98" cy="70" r="1.2" fill="#222"/><circle cx="66" cy="86" r="1" fill="#444"/><circle cx="74" cy="90" r="1.1" fill="#333"/>
+        <circle cx="82" cy="88" r="1" fill="#555"/><circle cx="90" cy="92" r="1.2" fill="#222"/><circle cx="96" cy="86" r="1" fill="#444"/>
+        <!-- Stipple fill for top block -->
+        <circle cx="68" cy="42" r="1" fill="#222"/><circle cx="74" cy="48" r="1.1" fill="#333"/><circle cx="80" cy="44" r="1.2" fill="#222"/>
+        <circle cx="86" cy="50" r="1" fill="#444"/><circle cx="92" cy="42" r="1.1" fill="#222"/><circle cx="70" cy="54" r="1" fill="#555"/>
+        <circle cx="78" cy="58" r="1.2" fill="#222"/><circle cx="86" cy="56" r="1" fill="#444"/><circle cx="92" cy="60" r="1.1" fill="#333"/>
+        <!-- Scattered dots around blocks (wobble effect) -->
+        <circle cx="44" cy="140" r="0.8" fill="#999"/><circle cx="120" cy="138" r="0.8" fill="#999"/>
+        <circle cx="38" cy="98" r="0.7" fill="#aaa"/><circle cx="118" cy="102" r="0.7" fill="#aaa"/>
+        <circle cx="48" cy="60" r="0.6" fill="#bbb"/><circle cx="106" cy="38" r="0.6" fill="#bbb"/>
+        <!-- Small tumbled block -->
+        <rect x="112" y="130" width="18" height="14" fill="none" stroke="#999" stroke-width="1" rx="1" transform="rotate(15 121 137)"/>
+        <circle cx="116" cy="134" r="0.7" fill="#999"/><circle cx="122" cy="138" r="0.7" fill="#999"/>
+      </svg>
+      <div>
+        <div class="currency-age-badge">Age 1</div>
+        <div class="currency-name-badge">Blocks</div>
+      </div>
+    </div>
+    <div class="currency-content">
+      <h3>At one year old, the wooden block is sovereign</h3>
+      <p>Before language, before logic, before the concept of "mine" fully crystallizes into the weapon it will later become, the block is everything. It is architecture, percussion instrument, projectile, and teething device. A one-year-old with a full set of blocks is, by any reasonable measure, wealthy.</p>
+      <p>Researchers at the Yale Infant Cognition Center have documented what parents have long suspected: a child who has had a block tower toppled by a sibling will exhibit stress-hormone levels comparable to those of an adult who has just checked a brokerage statement in a down market.</p>
+      <div class="market-indicator up">&#9650; BLKS +12.4% &mdash; Post-holiday surge</div>
+    </div>
+    <aside class="currency-sidebar">
+      <div class="sidebar-label">By the Numbers</div>
+      <div class="sidebar-stat">
+        <div class="stat-number">47</div>
+        <div class="stat-label">Average block towers built per day by a determined toddler</div>
+      </div>
+      <div class="sidebar-stat">
+        <div class="stat-number">$3.2B</div>
+        <div class="stat-label">Annual U.S. market for wooden building blocks</div>
+      </div>
+      <div class="sidebar-stat">
+        <div class="stat-number">6.2 sec</div>
+        <div class="stat-label">Average time a tower stands before demolition</div>
+      </div>
+    </aside>
+  </article>
+
+  <!-- ── 5 YEARS: COOKIES ── -->
+  <article class="currency-card" id="cookies">
+    <div class="currency-visual">
+      <svg class="stipple-art" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+        <!-- Cookie stipple illustration -->
+        <circle cx="80" cy="80" r="52" fill="none" stroke="#222" stroke-width="1.5"/>
+        <!-- Cookie texture stipple -->
+        <circle cx="60" cy="62" r="1.3" fill="#222"/><circle cx="64" cy="66" r="1" fill="#444"/><circle cx="56" cy="68" r="1.1" fill="#333"/>
+        <circle cx="72" cy="58" r="1.2" fill="#222"/><circle cx="80" cy="64" r="1" fill="#555"/><circle cx="88" cy="60" r="1.3" fill="#222"/>
+        <circle cx="96" cy="66" r="1" fill="#444"/><circle cx="100" cy="72" r="1.1" fill="#333"/><circle cx="104" cy="80" r="1.2" fill="#222"/>
+        <circle cx="100" cy="88" r="1" fill="#555"/><circle cx="96" cy="96" r="1.3" fill="#222"/><circle cx="88" cy="100" r="1" fill="#444"/>
+        <circle cx="80" cy="98" r="1.1" fill="#333"/><circle cx="72" cy="102" r="1.2" fill="#222"/><circle cx="64" cy="96" r="1" fill="#555"/>
+        <circle cx="56" cy="90" r="1.3" fill="#222"/><circle cx="52" cy="82" r="1" fill="#444"/><circle cx="54" cy="74" r="1.1" fill="#333"/>
+        <circle cx="68" cy="74" r="1" fill="#555"/><circle cx="76" cy="78" r="1.2" fill="#222"/><circle cx="84" cy="76" r="1" fill="#444"/>
+        <circle cx="92" cy="82" r="1.1" fill="#333"/><circle cx="84" cy="88" r="1.3" fill="#222"/><circle cx="76" cy="90" r="1" fill="#555"/>
+        <circle cx="68" cy="84" r="1.2" fill="#222"/><circle cx="92" cy="70" r="1" fill="#444"/>
+        <!-- Chocolate chips (larger dots) -->
+        <circle cx="66" cy="70" r="4" fill="#3E2723"/><circle cx="88" cy="68" r="3.5" fill="#3E2723"/>
+        <circle cx="76" cy="86" r="4" fill="#3E2723"/><circle cx="98" cy="84" r="3.5" fill="#3E2723"/>
+        <circle cx="62" cy="92" r="3" fill="#3E2723"/><circle cx="82" cy="98" r="3.5" fill="#3E2723"/>
+        <circle cx="72" cy="60" r="3" fill="#3E2723"/>
+        <!-- Chip stipple highlights -->
+        <circle cx="65" cy="69" r="1" fill="#5D4037"/><circle cx="87" cy="67" r="0.8" fill="#5D4037"/>
+        <circle cx="75" cy="85" r="1" fill="#5D4037"/><circle cx="97" cy="83" r="0.8" fill="#5D4037"/>
+        <!-- Crumb dots -->
+        <circle cx="38" cy="120" r="2" fill="#222"/><circle cx="44" cy="126" r="1.5" fill="#444"/>
+        <circle cx="50" cy="122" r="1" fill="#666"/><circle cx="118" cy="118" r="1.8" fill="#333"/>
+        <circle cx="124" cy="124" r="1.2" fill="#555"/><circle cx="42" cy="118" r="0.8" fill="#888"/>
+      </svg>
+      <div>
+        <div class="currency-age-badge">Age 5</div>
+        <div class="currency-name-badge">Cookies</div>
+      </div>
+    </div>
+    <div class="currency-content">
+      <h3>By five, the cookie economy runs the household</h3>
+      <p>The five-year-old has discovered leverage. "If I eat my broccoli, I get a cookie" is the first financial contract most humans execute, and it teaches a lesson that Wall Street would later formalize: all value is conditional.</p>
+      <p>The cookie, in this context, is not merely a baked good. It is a unit of compliance, a medium of exchange between the governed and the governing. Parents who believe they are in charge have not yet reckoned with a kindergartner who has learned the phrase "but you promised."</p>
+      <div class="market-indicator up">&#9650; COOK +8.7% &mdash; Girl Scout season rally</div>
+    </div>
+    <aside class="currency-sidebar">
+      <div class="sidebar-label">By the Numbers</div>
+      <div class="sidebar-stat">
+        <div class="stat-number">2B+</div>
+        <div class="stat-label">Cookies consumed annually by Americans</div>
+      </div>
+      <div class="sidebar-stat">
+        <div class="stat-number">$9.2B</div>
+        <div class="stat-label">U.S. cookie market valuation, 2025</div>
+      </div>
+      <div class="sidebar-stat">
+        <div class="stat-number">3.4</div>
+        <div class="stat-label">Average cookies a 5-year-old will negotiate per sitting</div>
+      </div>
+    </aside>
+  </article>
+
+  <!-- ── 16 YEARS: CAR RIDES ── -->
+  <article class="currency-card" id="carrides">
+    <div class="currency-visual">
+      <svg class="stipple-art" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+        <!-- Car stipple illustration -->
+        <!-- Car body outline -->
+        <path d="M25 105 L25 90 Q25 85 30 85 L48 85 L58 65 Q60 60 65 60 L105 60 Q110 60 112 65 L120 85 L135 85 Q140 85 140 90 L140 105" fill="none" stroke="#222" stroke-width="1.5"/>
+        <line x1="25" y1="105" x2="140" y2="105" stroke="#222" stroke-width="1.5"/>
+        <!-- Windows -->
+        <path d="M60 65 L54 83 L82 83 L82 65 Z" fill="none" stroke="#222" stroke-width="1"/>
+        <path d="M85 65 L85 83 L116 83 L110 65 Z" fill="none" stroke="#222" stroke-width="1"/>
+        <!-- Wheels -->
+        <circle cx="50" cy="105" r="14" fill="none" stroke="#222" stroke-width="1.5"/>
+        <circle cx="50" cy="105" r="6" fill="none" stroke="#222" stroke-width="1"/>
+        <circle cx="120" cy="105" r="14" fill="none" stroke="#222" stroke-width="1.5"/>
+        <circle cx="120" cy="105" r="6" fill="none" stroke="#222" stroke-width="1"/>
+        <!-- Body stipple -->
+        <circle cx="34" cy="92" r="1" fill="#222"/><circle cx="40" cy="88" r="1.1" fill="#333"/><circle cx="46" cy="94" r="1" fill="#444"/>
+        <circle cx="70" cy="88" r="1.2" fill="#222"/><circle cx="78" cy="92" r="1" fill="#555"/><circle cx="86" cy="88" r="1.1" fill="#333"/>
+        <circle cx="94" cy="94" r="1" fill="#444"/><circle cx="102" cy="90" r="1.2" fill="#222"/><circle cx="110" cy="92" r="1" fill="#555"/>
+        <circle cx="128" cy="90" r="1.1" fill="#333"/><circle cx="134" cy="94" r="1" fill="#444"/>
+        <circle cx="66" cy="96" r="1" fill="#222"/><circle cx="74" cy="98" r="1.1" fill="#333"/><circle cx="82" cy="96" r="1" fill="#444"/>
+        <circle cx="90" cy="100" r="1.2" fill="#222"/><circle cx="98" cy="98" r="1" fill="#555"/>
+        <!-- Window stipple (lighter) -->
+        <circle cx="64" cy="72" r="0.8" fill="#888"/><circle cx="70" cy="76" r="0.7" fill="#999"/><circle cx="76" cy="72" r="0.8" fill="#888"/>
+        <circle cx="90" cy="72" r="0.8" fill="#888"/><circle cx="98" cy="76" r="0.7" fill="#999"/><circle cx="106" cy="72" r="0.8" fill="#888"/>
+        <!-- Wheel stipple -->
+        <circle cx="44" cy="102" r="0.8" fill="#222"/><circle cx="50" cy="98" r="0.8" fill="#333"/><circle cx="56" cy="102" r="0.8" fill="#222"/>
+        <circle cx="50" cy="112" r="0.8" fill="#333"/><circle cx="44" cy="108" r="0.8" fill="#444"/><circle cx="56" cy="108" r="0.8" fill="#444"/>
+        <circle cx="114" cy="102" r="0.8" fill="#222"/><circle cx="120" cy="98" r="0.8" fill="#333"/><circle cx="126" cy="102" r="0.8" fill="#222"/>
+        <circle cx="120" cy="112" r="0.8" fill="#333"/><circle cx="114" cy="108" r="0.8" fill="#444"/><circle cx="126" cy="108" r="0.8" fill="#444"/>
+        <!-- Road dots -->
+        <circle cx="20" cy="120" r="1" fill="#ccc"/><circle cx="40" cy="122" r="0.8" fill="#ccc"/>
+        <circle cx="80" cy="122" r="1.2" fill="#ccc"/><circle cx="100" cy="120" r="0.8" fill="#ccc"/>
+        <circle cx="140" cy="122" r="1" fill="#ccc"/>
+      </svg>
+      <div>
+        <div class="currency-age-badge">Age 16</div>
+        <div class="currency-name-badge">Car Rides</div>
+      </div>
+    </div>
+    <div class="currency-content">
+      <h3>At sixteen, mobility is the only freedom that counts</h3>
+      <p>The teenager does not want money per se; the teenager wants what money buys in a single, specific form: transportation away from parental oversight. A car ride — obtained via a licensed friend, an older sibling, or an exasperated parent — is the most potent currency in the 16-year-old economy.</p>
+      <p>Every car ride is a declaration of independence, a brief and intoxicating taste of adulthood that smells faintly of air freshener and poor judgment. Those without access to rides experience a form of social inflation that no allowance can offset.</p>
+      <div class="market-indicator up">&#9650; RIDE +5.2% &mdash; Summer break premium</div>
+    </div>
+    <aside class="currency-sidebar">
+      <div class="sidebar-label">By the Numbers</div>
+      <div class="sidebar-stat">
+        <div class="stat-number">61%</div>
+        <div class="stat-label">Of 16-year-olds who say a car ride is "more valuable than cash"</div>
+      </div>
+      <div class="sidebar-stat">
+        <div class="stat-number">$4,312</div>
+        <div class="stat-label">Average annual cost to insure a teen driver</div>
+      </div>
+      <div class="sidebar-stat">
+        <div class="stat-number">11.3 mi</div>
+        <div class="stat-label">Average distance of a teen's "quick errand"</div>
+      </div>
+    </aside>
+  </article>
+
+  <!-- ── 25 YEARS: LATTES ── -->
+  <article class="currency-card" id="lattes">
+    <div class="currency-visual">
+      <svg class="stipple-art" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+        <!-- Coffee cup stipple illustration -->
+        <!-- Cup body -->
+        <path d="M45 55 L50 135 Q50 142 58 142 L102 142 Q110 142 110 135 L115 55" fill="none" stroke="#222" stroke-width="1.5"/>
+        <!-- Cup rim -->
+        <ellipse cx="80" cy="55" rx="35" ry="8" fill="none" stroke="#222" stroke-width="1.5"/>
+        <!-- Sleeve -->
+        <path d="M50 85 L52 110 L108 110 L110 85" fill="none" stroke="#222" stroke-width="1"/>
+        <line x1="50" y1="85" x2="110" y2="85" stroke="#222" stroke-width="1"/>
+        <line x1="52" y1="110" x2="108" y2="110" stroke="#222" stroke-width="1"/>
+        <!-- Sleeve stipple -->
+        <circle cx="60" cy="92" r="1" fill="#222"/><circle cx="68" cy="96" r="1.1" fill="#333"/><circle cx="76" cy="92" r="1" fill="#444"/>
+        <circle cx="84" cy="98" r="1.2" fill="#222"/><circle cx="92" cy="94" r="1" fill="#555"/><circle cx="100" cy="96" r="1.1" fill="#333"/>
+        <circle cx="64" cy="102" r="1" fill="#444"/><circle cx="72" cy="106" r="1.2" fill="#222"/><circle cx="80" cy="102" r="1" fill="#555"/>
+        <circle cx="88" cy="106" r="1.1" fill="#333"/><circle cx="96" cy="102" r="1" fill="#444"/>
+        <!-- Cup body stipple -->
+        <circle cx="58" cy="68" r="0.8" fill="#888"/><circle cx="66" cy="72" r="0.7" fill="#999"/><circle cx="74" cy="68" r="0.8" fill="#888"/>
+        <circle cx="82" cy="74" r="0.7" fill="#999"/><circle cx="90" cy="70" r="0.8" fill="#888"/><circle cx="98" cy="72" r="0.7" fill="#999"/>
+        <circle cx="106" cy="68" r="0.8" fill="#888"/>
+        <circle cx="56" cy="120" r="0.9" fill="#666"/><circle cx="64" cy="124" r="0.8" fill="#777"/>
+        <circle cx="72" cy="118" r="0.9" fill="#666"/><circle cx="80" cy="126" r="0.8" fill="#777"/>
+        <circle cx="88" cy="120" r="0.9" fill="#666"/><circle cx="96" cy="128" r="0.8" fill="#777"/>
+        <circle cx="104" cy="122" r="0.9" fill="#666"/>
+        <circle cx="60" cy="134" r="0.8" fill="#888"/><circle cx="72" cy="136" r="0.7" fill="#999"/>
+        <circle cx="84" cy="134" r="0.8" fill="#888"/><circle cx="96" cy="138" r="0.7" fill="#999"/>
+        <!-- Steam -->
+        <path d="M68 42 Q64 32 68 22" fill="none" stroke="#aaa" stroke-width="1.2" stroke-linecap="round"/>
+        <path d="M80 40 Q76 28 80 18" fill="none" stroke="#aaa" stroke-width="1.2" stroke-linecap="round"/>
+        <path d="M92 42 Q88 32 92 22" fill="none" stroke="#aaa" stroke-width="1.2" stroke-linecap="round"/>
+        <!-- Steam stipple -->
+        <circle cx="66" cy="28" r="0.6" fill="#ccc"/><circle cx="78" cy="24" r="0.6" fill="#ccc"/>
+        <circle cx="90" cy="28" r="0.6" fill="#ccc"/><circle cx="72" cy="20" r="0.5" fill="#ddd"/>
+        <circle cx="84" cy="16" r="0.5" fill="#ddd"/>
+      </svg>
+      <div>
+        <div class="currency-age-badge">Age 25</div>
+        <div class="currency-name-badge">Lattes</div>
+      </div>
+    </div>
+    <div class="currency-content">
+      <h3>The latte: legal tender of the aspirational class</h3>
+      <p>At 25, the latte is not a beverage. It is an identity document. The specific customizations — oat milk, no foam, extra shot, precisely 140 degrees — function as a kind of PIN code for selfhood. To order a latte with confidence is to announce that one has arrived, or at least that one is caffeinated enough to believe so.</p>
+      <p>Financial advisors have long bemoaned the "latte factor," the theory that foregoing a daily $6 coffee could, over decades, yield a retirement fortune. The 25-year-old, wisely, ignores this. Retirement is an abstraction. The latte is warm and real and right here.</p>
+      <div class="market-indicator down">&#9660; LATT -2.1% &mdash; Oat milk shortage</div>
+    </div>
+    <aside class="currency-sidebar">
+      <div class="sidebar-label">By the Numbers</div>
+      <div class="sidebar-stat">
+        <div class="stat-number">$110B</div>
+        <div class="stat-label">Annual U.S. spending on coffee</div>
+      </div>
+      <div class="sidebar-stat">
+        <div class="stat-number">$6.42</div>
+        <div class="stat-label">Average price of a specialty latte in a major U.S. city</div>
+      </div>
+      <div class="sidebar-stat">
+        <div class="stat-number">2,340</div>
+        <div class="stat-label">Lattes a 25-year-old forgoes to afford one month's rent</div>
+      </div>
+    </aside>
+  </article>
+
+  <!-- ── 31 YEARS: SLEEP ── -->
+  <article class="currency-card" id="sleep">
+    <div class="currency-visual">
+      <svg class="stipple-art" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+        <!-- Pillow / Sleep stipple illustration -->
+        <!-- Pillow shape -->
+        <path d="M20 95 Q20 65 50 60 Q80 54 110 60 Q140 65 140 95 Q140 115 110 118 Q80 122 50 118 Q20 115 20 95 Z" fill="none" stroke="#222" stroke-width="1.5"/>
+        <!-- Pillow stipple texture -->
+        <circle cx="40" cy="82" r="1" fill="#444"/><circle cx="48" cy="78" r="1.1" fill="#555"/><circle cx="56" cy="84" r="1" fill="#666"/>
+        <circle cx="64" cy="76" r="1.2" fill="#444"/><circle cx="72" cy="82" r="1" fill="#555"/><circle cx="80" cy="78" r="1.1" fill="#666"/>
+        <circle cx="88" cy="84" r="1" fill="#444"/><circle cx="96" cy="76" r="1.2" fill="#555"/><circle cx="104" cy="82" r="1" fill="#666"/>
+        <circle cx="112" cy="80" r="1.1" fill="#444"/><circle cx="120" cy="86" r="1" fill="#555"/>
+        <circle cx="44" cy="92" r="0.9" fill="#666"/><circle cx="52" cy="96" r="1" fill="#555"/><circle cx="60" cy="92" r="0.9" fill="#666"/>
+        <circle cx="68" cy="98" r="1" fill="#444"/><circle cx="76" cy="94" r="0.9" fill="#555"/><circle cx="84" cy="98" r="1" fill="#666"/>
+        <circle cx="92" cy="92" r="0.9" fill="#444"/><circle cx="100" cy="96" r="1" fill="#555"/><circle cx="108" cy="94" r="0.9" fill="#666"/>
+        <circle cx="116" cy="98" r="1" fill="#444"/>
+        <circle cx="36" cy="102" r="0.8" fill="#777"/><circle cx="52" cy="106" r="0.9" fill="#666"/>
+        <circle cx="68" cy="108" r="0.8" fill="#777"/><circle cx="84" cy="106" r="0.9" fill="#666"/>
+        <circle cx="100" cy="108" r="0.8" fill="#777"/><circle cx="116" cy="106" r="0.9" fill="#666"/>
+        <circle cx="124" cy="90" r="0.8" fill="#777"/>
+        <!-- Z letters (sleep indicator) -->
+        <text x="105" y="48" font-family="Georgia, serif" font-size="24" font-weight="700" fill="#222">Z</text>
+        <text x="120" y="34" font-family="Georgia, serif" font-size="18" font-weight="700" fill="#555">Z</text>
+        <text x="132" y="22" font-family="Georgia, serif" font-size="13" font-weight="700" fill="#888">Z</text>
+        <!-- Zzz stipple halos -->
+        <circle cx="112" cy="40" r="0.6" fill="#aaa"/><circle cx="126" cy="28" r="0.5" fill="#bbb"/>
+        <circle cx="100" cy="44" r="0.5" fill="#bbb"/><circle cx="136" cy="18" r="0.4" fill="#ccc"/>
+      </svg>
+      <div>
+        <div class="currency-age-badge">Age 31</div>
+        <div class="currency-name-badge">Sleep</div>
+      </div>
+    </div>
+    <div class="currency-content">
+      <h3>Sleep: the currency no amount of money can reliably purchase</h3>
+      <p>Something happens around 31. It may coincide with a first child, a promotion, a mortgage, or simply the dawning realization that the body is not, in fact, a perpetual-motion machine. Whatever the catalyst, sleep becomes the scarcest and most coveted resource in the portfolio.</p>
+      <p>The 31-year-old will pay $200 for a weighted blanket. Will download four sleep-tracking apps. Will seriously consider, for the first time, going to bed at 9 p.m. on a Friday. The exchange rate is brutal: one hour of uninterrupted sleep now commands what an entire Saturday night out was worth at 22.</p>
+      <div class="market-indicator up">&#9650; SLEP +18.3% &mdash; New parent demand surge</div>
+    </div>
+    <aside class="currency-sidebar">
+      <div class="sidebar-label">By the Numbers</div>
+      <div class="sidebar-stat">
+        <div class="stat-number">6.2 hrs</div>
+        <div class="stat-label">Average sleep for a working parent aged 28-35</div>
+      </div>
+      <div class="sidebar-stat">
+        <div class="stat-number">$432B</div>
+        <div class="stat-label">Global sleep economy (mattresses, aids, apps)</div>
+      </div>
+      <div class="sidebar-stat">
+        <div class="stat-number">$683</div>
+        <div class="stat-label">Amount a sleep-deprived 31-year-old would pay for one guaranteed 10-hour night</div>
+      </div>
+    </aside>
+  </article>
+
+  <!-- ── 45 YEARS: ACTUAL MONEY ── -->
+  <article class="currency-card" id="money">
+    <div class="currency-visual">
+      <svg class="stipple-art" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+        <!-- Dollar bill stipple illustration -->
+        <rect x="18" y="48" width="124" height="70" rx="4" fill="none" stroke="#222" stroke-width="1.5"/>
+        <!-- Inner border -->
+        <rect x="26" y="56" width="108" height="54" rx="2" fill="none" stroke="#444" stroke-width="0.8"/>
+        <!-- Dollar sign center -->
+        <text x="80" y="96" font-family="Georgia, serif" font-size="36" font-weight="700" fill="#222" text-anchor="middle">$</text>
+        <!-- Stipple pattern across bill -->
+        <circle cx="34" cy="64" r="0.9" fill="#444"/><circle cx="40" cy="68" r="0.8" fill="#555"/><circle cx="46" cy="62" r="0.9" fill="#444"/>
+        <circle cx="52" cy="66" r="0.8" fill="#555"/><circle cx="108" cy="64" r="0.9" fill="#444"/><circle cx="114" cy="68" r="0.8" fill="#555"/>
+        <circle cx="120" cy="62" r="0.9" fill="#444"/><circle cx="126" cy="66" r="0.8" fill="#555"/>
+        <circle cx="34" cy="100" r="0.9" fill="#444"/><circle cx="40" cy="96" r="0.8" fill="#555"/><circle cx="46" cy="102" r="0.9" fill="#444"/>
+        <circle cx="52" cy="98" r="0.8" fill="#555"/><circle cx="108" cy="100" r="0.9" fill="#444"/><circle cx="114" cy="96" r="0.8" fill="#555"/>
+        <circle cx="120" cy="102" r="0.9" fill="#444"/><circle cx="126" cy="98" r="0.8" fill="#555"/>
+        <!-- Corner ornaments -->
+        <circle cx="34" cy="78" r="1" fill="#333"/><circle cx="38" cy="82" r="0.8" fill="#555"/>
+        <circle cx="34" cy="86" r="1" fill="#333"/><circle cx="38" cy="74" r="0.8" fill="#555"/>
+        <circle cx="126" cy="78" r="1" fill="#333"/><circle cx="122" cy="82" r="0.8" fill="#555"/>
+        <circle cx="126" cy="86" r="1" fill="#333"/><circle cx="122" cy="74" r="0.8" fill="#555"/>
+        <!-- Edge pattern stipple -->
+        <circle cx="58" cy="56" r="0.6" fill="#888"/><circle cx="66" cy="56" r="0.6" fill="#888"/>
+        <circle cx="74" cy="56" r="0.6" fill="#888"/><circle cx="82" cy="56" r="0.6" fill="#888"/>
+        <circle cx="90" cy="56" r="0.6" fill="#888"/><circle cx="98" cy="56" r="0.6" fill="#888"/>
+        <circle cx="58" cy="110" r="0.6" fill="#888"/><circle cx="66" cy="110" r="0.6" fill="#888"/>
+        <circle cx="74" cy="110" r="0.6" fill="#888"/><circle cx="82" cy="110" r="0.6" fill="#888"/>
+        <circle cx="90" cy="110" r="0.6" fill="#888"/><circle cx="98" cy="110" r="0.6" fill="#888"/>
+        <!-- Second bill offset behind -->
+        <rect x="22" y="44" width="124" height="70" rx="4" fill="none" stroke="#bbb" stroke-width="0.8" opacity="0.5"/>
+        <!-- Coin -->
+        <circle cx="130" cy="126" r="16" fill="none" stroke="#222" stroke-width="1.5"/>
+        <circle cx="130" cy="126" r="12" fill="none" stroke="#444" stroke-width="0.8"/>
+        <circle cx="126" cy="122" r="0.7" fill="#444"/><circle cx="130" cy="120" r="0.7" fill="#555"/>
+        <circle cx="134" cy="122" r="0.7" fill="#444"/><circle cx="128" cy="130" r="0.7" fill="#555"/>
+        <circle cx="132" cy="132" r="0.7" fill="#444"/>
+        <text x="130" y="130" font-family="Georgia, serif" font-size="12" font-weight="700" fill="#222" text-anchor="middle">¢</text>
+      </svg>
+      <div>
+        <div class="currency-age-badge">Age 45</div>
+        <div class="currency-name-badge">Actual Money</div>
+      </div>
+    </div>
+    <div class="currency-content">
+      <h3>At 45, the metaphors collapse and literal cash takes the throne</h3>
+      <p>There is a clarifying moment in middle age when the various proxy currencies of earlier life stages are recognized for what they always were: stand-ins for the real thing. At 45, there are college tuitions to fund, retirement accounts to anxiously monitor, and a mortgage that has become a defining relationship.</p>
+      <p>The irony is exquisite. Having spent decades valuing everything except money — blocks, cookies, rides, caffeine, rest — the 45-year-old arrives at the discovery that actual currency is, in fact, a currency. Financial advisors report that this is the age at which clients begin, for the first time, to read their statements with genuine attention.</p>
+      <div class="market-indicator down">&#9660; USD -0.4% &mdash; Inflation-adjusted decline</div>
+    </div>
+    <aside class="currency-sidebar">
+      <div class="sidebar-label">By the Numbers</div>
+      <div class="sidebar-stat">
+        <div class="stat-number">$143K</div>
+        <div class="stat-label">Median household income, ages 45-54</div>
+      </div>
+      <div class="sidebar-stat">
+        <div class="stat-number">78%</div>
+        <div class="stat-label">Of 45-year-olds who check their bank balance at least daily</div>
+      </div>
+      <div class="sidebar-stat">
+        <div class="stat-number">$314K</div>
+        <div class="stat-label">Average cost to raise a child to 18, per USDA</div>
+      </div>
+    </aside>
+  </article>
+
+  <!-- ── 61 YEARS: TIME ── -->
+  <article class="currency-card" id="time">
+    <div class="currency-visual">
+      <svg class="stipple-art" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+        <!-- Hourglass / clock stipple illustration -->
+        <!-- Clock face -->
+        <circle cx="80" cy="80" r="58" fill="none" stroke="#222" stroke-width="1.8"/>
+        <circle cx="80" cy="80" r="54" fill="none" stroke="#444" stroke-width="0.6"/>
+        <!-- Hour markers -->
+        <line x1="80" y1="26" x2="80" y2="34" stroke="#222" stroke-width="2"/>
+        <line x1="80" y1="126" x2="80" y2="134" stroke="#222" stroke-width="2"/>
+        <line x1="26" y1="80" x2="34" y2="80" stroke="#222" stroke-width="2"/>
+        <line x1="126" y1="80" x2="134" y2="80" stroke="#222" stroke-width="2"/>
+        <!-- Minor markers -->
+        <circle cx="107" cy="33" r="1.2" fill="#222"/><circle cx="127" cy="53" r="1.2" fill="#222"/>
+        <circle cx="127" cy="107" r="1.2" fill="#222"/><circle cx="107" cy="127" r="1.2" fill="#222"/>
+        <circle cx="53" cy="127" r="1.2" fill="#222"/><circle cx="33" cy="107" r="1.2" fill="#222"/>
+        <circle cx="33" cy="53" r="1.2" fill="#222"/><circle cx="53" cy="33" r="1.2" fill="#222"/>
+        <!-- Clock hands -->
+        <line x1="80" y1="80" x2="80" y2="42" stroke="#222" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="80" y1="80" x2="108" y2="68" stroke="#222" stroke-width="1.8" stroke-linecap="round"/>
+        <circle cx="80" cy="80" r="3" fill="#222"/>
+        <!-- Face stipple texture -->
+        <circle cx="68" cy="58" r="0.7" fill="#bbb"/><circle cx="92" cy="58" r="0.7" fill="#bbb"/>
+        <circle cx="60" cy="72" r="0.6" fill="#ccc"/><circle cx="100" cy="72" r="0.6" fill="#ccc"/>
+        <circle cx="62" cy="90" r="0.7" fill="#bbb"/><circle cx="98" cy="90" r="0.7" fill="#bbb"/>
+        <circle cx="68" cy="104" r="0.6" fill="#ccc"/><circle cx="92" cy="104" r="0.6" fill="#ccc"/>
+        <circle cx="74" cy="66" r="0.5" fill="#ddd"/><circle cx="86" cy="66" r="0.5" fill="#ddd"/>
+        <circle cx="72" cy="96" r="0.5" fill="#ddd"/><circle cx="88" cy="96" r="0.5" fill="#ddd"/>
+        <!-- Shadow stipple on rim -->
+        <circle cx="40" cy="46" r="0.8" fill="#888"/><circle cx="34" cy="60" r="0.7" fill="#999"/>
+        <circle cx="30" cy="74" r="0.8" fill="#888"/><circle cx="30" cy="88" r="0.7" fill="#999"/>
+        <circle cx="34" cy="100" r="0.8" fill="#888"/><circle cx="120" cy="46" r="0.8" fill="#888"/>
+        <circle cx="126" cy="60" r="0.7" fill="#999"/><circle cx="130" cy="74" r="0.8" fill="#888"/>
+        <circle cx="130" cy="88" r="0.7" fill="#999"/><circle cx="126" cy="100" r="0.8" fill="#888"/>
+      </svg>
+      <div>
+        <div class="currency-age-badge">Age 61</div>
+        <div class="currency-name-badge">Time</div>
+      </div>
+    </div>
+    <div class="currency-content">
+      <h3>By 61, you understand there was only ever one currency</h3>
+      <p>The final entry on this ledger is the one that renders all previous entries footnotes. At 61 — with a career winding down, children launched, and the actuarial tables no longer an abstraction — time reveals itself as the sole reserve currency of a human life.</p>
+      <p>It cannot be earned back. It cannot be borrowed against. It pays no dividends except in the spending. The 61-year-old who has arrived at this understanding does not check a brokerage account with urgency. That person checks a calendar, counts the Saturdays remaining, and invests them with the seriousness they deserve.</p>
+      <p>This is the final correction in the longest-running market of all.</p>
+      <div class="market-indicator down">&#9660; TIME -0.003%/day &mdash; Non-renewable</div>
+    </div>
+    <aside class="currency-sidebar">
+      <div class="sidebar-label">By the Numbers</div>
+      <div class="sidebar-stat">
+        <div class="stat-number">1,248</div>
+        <div class="stat-label">Saturdays remaining for a 61-year-old (average life expectancy)</div>
+      </div>
+      <div class="sidebar-stat">
+        <div class="stat-number">87%</div>
+        <div class="stat-label">Of retirees who say "more time" matters more than "more money"</div>
+      </div>
+      <div class="sidebar-stat">
+        <div class="stat-number">$0</div>
+        <div class="stat-label">Amount of money required to sit quietly and watch a sunset</div>
+      </div>
+    </aside>
+  </article>
+
+</section>
+
+<!-- ════════════ PORTFOLIO BUILDER ════════════ -->
+<section class="portfolio-section">
+  <div class="portfolio-inner">
+    <div class="portfolio-section-label">Interactive Tool</div>
+    <h2 class="portfolio-headline">Your personal currency portfolio</h2>
+    <p class="portfolio-deck">Enter your age to see your estimated currency allocation, based on our proprietary Life Markets Index.</p>
+    <div class="portfolio-controls">
+      <label for="ageSlider">Your age:</label>
+      <input type="range" id="ageSlider" min="1" max="85" value="30">
+      <div class="portfolio-age-display"><span id="ageValue">30</span> <span>years</span></div>
+    </div>
+    <div class="portfolio-result">
+      <div class="portfolio-chart-wrap">
+        <canvas id="portfolioChart" width="260" height="260"></canvas>
+      </div>
+      <div class="portfolio-allocations" id="allocList"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ FOOTER ════════════ -->
+<footer class="footer">
+  <strong>The Wall Street Journal</strong> &mdash; Life &amp; Currency Markets<br>
+  &copy; 2026 Dow Jones &amp; Company, Inc. All Rights Reserved. This is a satirical feature. No actual financial advice is contained herein, though we do recommend sleep.<br>
+  <span style="color:#aaa;">Illustrations rendered in the WSJ stipple-dot tradition. Data sources: Bureau of Imaginary Statistics, The Institute for Making Things Up Convincingly.</span>
+</footer>
+
+<script>
+(function() {
+  // ═══════ TICKER DATA ═══════
+  const currencies = [
+    { sym: "BLKS",  name: "Blocks",       price: 47.12,   change: +12.4,  age: 1  },
+    { sym: "COOK",  name: "Cookies",       price: 9.20,    change: +8.7,   age: 5  },
+    { sym: "RIDE",  name: "Car Rides",     price: 43.12,   change: +5.2,   age: 16 },
+    { sym: "LATT",  name: "Lattes",        price: 6.42,    change: -2.1,   age: 25 },
+    { sym: "SLEP",  name: "Sleep",         price: 683.00,  change: +18.3,  age: 31 },
+    { sym: "USD",   name: "Actual Money",  price: 1.00,    change: -0.4,   age: 45 },
+    { sym: "TIME",  name: "Time",          price: 1248.00, change: -0.003, age: 61 }
+  ];
+
+  // Build ticker
+  const track = document.getElementById('tickerTrack');
+  function buildTickerHTML() {
+    return currencies.map(c => {
+      const up = c.change >= 0;
+      return `<span class="ticker-item">
+        <span class="ticker-symbol">${c.sym}</span>
+        <span class="ticker-price">${c.price.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2})}</span>
+        <span class="ticker-change ${up ? 'up' : 'down'}">
+          <span class="ticker-arrow">${up ? '\u25B2' : '\u25BC'}</span> ${up ? '+' : ''}${c.change}%
+        </span>
+      </span>`;
+    }).join('');
+  }
+  // Duplicate for seamless loop
+  track.innerHTML = buildTickerHTML() + buildTickerHTML();
+
+  // ═══════ PORTFOLIO BUILDER ═══════
+  const slider = document.getElementById('ageSlider');
+  const ageDisplay = document.getElementById('ageValue');
+  const canvas = document.getElementById('portfolioChart');
+  const ctx = canvas.getContext('2d');
+  const allocList = document.getElementById('allocList');
+
+  const allCurrencies = [
+    { name: "Blocks",       color: "#5C6BC0", peak: 1  },
+    { name: "Cookies",      color: "#8D6E63", peak: 5  },
+    { name: "Car Rides",    color: "#42A5F5", peak: 16 },
+    { name: "Lattes",       color: "#AB47BC", peak: 25 },
+    { name: "Sleep",        color: "#26A69A", peak: 31 },
+    { name: "Actual Money", color: "#2E7D32", peak: 45 },
+    { name: "Time",         color: "#EF5350", peak: 61 }
+  ];
+
+  function getAllocations(age) {
+    // Gaussian-ish weighting around each peak
+    const raw = allCurrencies.map(c => {
+      const dist = Math.abs(age - c.peak);
+      const sigma = c.peak < 10 ? 8 : c.peak < 20 ? 10 : 14;
+      return Math.exp(-0.5 * (dist / sigma) ** 2);
+    });
+    const total = raw.reduce((a, b) => a + b, 0);
+    return raw.map(v => v / total);
+  }
+
+  function drawDonut(allocations) {
+    const dpr = window.devicePixelRatio || 1;
+    const w = 260, h = 260;
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    canvas.style.width = w + 'px';
+    canvas.style.height = h + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    const cx = w / 2, cy = h / 2, r = 105, inner = 60;
+    ctx.clearRect(0, 0, w, h);
+
+    let startAngle = -Math.PI / 2;
+    allocations.forEach((val, i) => {
+      if (val < 0.005) return;
+      const sweep = val * 2 * Math.PI;
+      ctx.beginPath();
+      ctx.arc(cx, cy, r, startAngle, startAngle + sweep);
+      ctx.arc(cx, cy, inner, startAngle + sweep, startAngle, true);
+      ctx.closePath();
+      ctx.fillStyle = allCurrencies[i].color;
+      ctx.fill();
+      startAngle += sweep;
+    });
+
+    // Center text
+    ctx.fillStyle = '#121212';
+    ctx.font = '700 14px Inter, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('PORTFOLIO', cx, cy - 8);
+    ctx.font = '400 12px Inter, sans-serif';
+    ctx.fillStyle = '#888';
+    ctx.fillText('allocation', cx, cy + 10);
+  }
+
+  function updateAllocList(allocations) {
+    allocList.innerHTML = allocations.map((val, i) => {
+      const pct = (val * 100).toFixed(1);
+      if (val < 0.005) return '';
+      return `<div class="alloc-item">
+        <div class="alloc-swatch" style="background:${allCurrencies[i].color}"></div>
+        <div class="alloc-label"><strong>${pct}%</strong>${allCurrencies[i].name}</div>
+      </div>`;
+    }).join('');
+  }
+
+  function update() {
+    const age = parseInt(slider.value);
+    ageDisplay.textContent = age;
+    const allocs = getAllocations(age);
+    drawDonut(allocs);
+    updateAllocList(allocs);
+  }
+
+  slider.addEventListener('input', update);
+  update();
+})();
+</script>
+</body>
+</html>

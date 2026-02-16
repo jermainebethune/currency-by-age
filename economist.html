@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Principal Currencies by Age | The Economist Style</title>
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;600;700&family=Merriweather:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --red: #E3120B;
+    --navy: #1D2B35;
+    --charcoal: #333;
+    --light-gray: #F6F6F6;
+    --blue: #3B7DD8;
+    --white: #FFFFFF;
+  }
+
+  body {
+    font-family: 'Merriweather', Georgia, serif;
+    color: var(--charcoal);
+    background: var(--white);
+    line-height: 1.7;
+    font-size: 15px;
+  }
+
+  /* TOP RED BAR */
+  .top-bar {
+    background: var(--red);
+    height: 4px;
+    width: 100%;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--white);
+    border-bottom: 1px solid #ddd;
+    padding: 16px 0;
+    text-align: center;
+  }
+
+  header .masthead {
+    font-family: 'Zilla Slab', serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--charcoal);
+    display: inline-block;
+    border: 2px solid var(--charcoal);
+    padding: 6px 18px;
+  }
+
+  header .section-label {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--red);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-top: 10px;
+  }
+
+  /* CONTAINER */
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* HERO */
+  .hero {
+    padding: 48px 0 36px;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .hero h1 {
+    font-family: 'Zilla Slab', serif;
+    font-weight: 700;
+    font-size: 42px;
+    line-height: 1.15;
+    color: var(--navy);
+    margin-bottom: 12px;
+  }
+
+  .hero .rubric {
+    font-family: 'Merriweather', serif;
+    font-style: italic;
+    font-size: 17px;
+    color: #555;
+    line-height: 1.6;
+    max-width: 680px;
+  }
+
+  .hero .dateline {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 12px;
+    color: #999;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 16px;
+  }
+
+  /* TWO-COLUMN INTRO */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    padding: 32px 0;
+  }
+
+  .two-col p {
+    font-size: 15px;
+    margin-bottom: 14px;
+    text-align: justify;
+  }
+
+  .two-col p:first-child::first-letter {
+    font-family: 'Zilla Slab', serif;
+    font-size: 52px;
+    font-weight: 700;
+    float: left;
+    line-height: 1;
+    margin-right: 6px;
+    margin-top: 4px;
+    color: var(--red);
+  }
+
+  /* DATA TABLE */
+  .data-table-section {
+    background: var(--light-gray);
+    padding: 36px 0;
+    margin: 0 -24px;
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  .data-table-section .section-title {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--red);
+    margin-bottom: 4px;
+  }
+
+  .data-table-section h2 {
+    font-family: 'Zilla Slab', serif;
+    font-weight: 700;
+    font-size: 26px;
+    color: var(--navy);
+    margin-bottom: 18px;
+  }
+
+  table.economist-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 14px;
+  }
+
+  table.economist-table thead th {
+    background: var(--navy);
+    color: var(--white);
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  table.economist-table thead th:first-child {
+    width: 50px;
+    text-align: center;
+  }
+
+  table.economist-table tbody td {
+    padding: 10px 14px;
+    border-bottom: 1px solid #ddd;
+    vertical-align: middle;
+  }
+
+  table.economist-table tbody td:first-child {
+    text-align: center;
+    font-weight: 700;
+    color: var(--red);
+  }
+
+  table.economist-table tbody tr:nth-child(even) {
+    background: var(--white);
+  }
+
+  table.economist-table tbody tr:nth-child(odd) {
+    background: #f0f0f0;
+  }
+
+  table.economist-table .currency-name {
+    font-weight: 700;
+  }
+
+  table.economist-table .score-bar {
+    display: inline-block;
+    height: 8px;
+    background: var(--red);
+    border-radius: 2px;
+    vertical-align: middle;
+    margin-right: 6px;
+  }
+
+  /* CURRENCY SECTIONS */
+  .currency-section {
+    padding: 48px 0 40px;
+    border-bottom: 1px solid #ddd;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .currency-section.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .currency-section.alt-bg {
+    background: var(--light-gray);
+    margin: 0 -24px;
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  .currency-section .section-label {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--red);
+    margin-bottom: 6px;
+  }
+
+  .currency-section h2 {
+    font-family: 'Zilla Slab', serif;
+    font-weight: 700;
+    font-size: 28px;
+    color: var(--navy);
+    border-left: 4px solid var(--red);
+    padding-left: 14px;
+    line-height: 1.2;
+    margin-bottom: 6px;
+  }
+
+  .currency-section .sub-rubric {
+    font-family: 'Merriweather', serif;
+    font-style: italic;
+    color: #666;
+    font-size: 15px;
+    margin-bottom: 20px;
+    padding-left: 18px;
+  }
+
+  .section-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    align-items: start;
+  }
+
+  .section-body .text-col p {
+    font-size: 14.5px;
+    margin-bottom: 12px;
+    text-align: justify;
+  }
+
+  .section-body .chart-col {
+    position: relative;
+  }
+
+  .section-body .chart-col canvas {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .chart-title {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 6px;
+  }
+
+  .chart-source {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 10px;
+    color: #999;
+    margin-top: 4px;
+  }
+
+  /* PULL QUOTE */
+  .pull-quote {
+    border-top: 3px solid var(--red);
+    background: var(--light-gray);
+    padding: 18px 20px;
+    margin: 20px 0;
+    font-family: 'Zilla Slab', serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--navy);
+    line-height: 1.5;
+  }
+
+  .pull-quote .pq-attr {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    color: #999;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 8px;
+  }
+
+  /* INTELLIGENCE UNIT */
+  .eiu-section {
+    background: var(--navy);
+    color: var(--white);
+    padding: 48px 0;
+    margin: 0 -24px;
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  .eiu-section .eiu-label {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--red);
+    margin-bottom: 6px;
+  }
+
+  .eiu-section h2 {
+    font-family: 'Zilla Slab', serif;
+    font-weight: 700;
+    font-size: 28px;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+
+  .eiu-section .eiu-rubric {
+    font-family: 'Merriweather', serif;
+    font-style: italic;
+    color: #aab;
+    font-size: 14px;
+    margin-bottom: 24px;
+  }
+
+  .eiu-form {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+
+  .eiu-form label {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .eiu-form input[type="number"] {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 16px;
+    padding: 8px 14px;
+    border: 2px solid #555;
+    background: #1a2530;
+    color: var(--white);
+    width: 90px;
+    border-radius: 0;
+  }
+
+  .eiu-form input[type="number"]:focus {
+    outline: none;
+    border-color: var(--red);
+  }
+
+  .eiu-form button {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding: 10px 24px;
+    background: var(--red);
+    color: var(--white);
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .eiu-form button:hover {
+    background: #c70f0a;
+  }
+
+  .briefing-output {
+    display: none;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    padding: 24px;
+  }
+
+  .briefing-output h3 {
+    font-family: 'Zilla Slab', serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .briefing-output .outlook {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 14px;
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+
+  .briefing-output .outlook span {
+    padding: 3px 10px;
+    border-radius: 2px;
+  }
+
+  .outlook .bullish { background: #1a7a3a; }
+  .outlook .bearish { background: #a01010; }
+  .outlook .stable { background: #3B7DD8; }
+  .outlook .confidence { background: rgba(255,255,255,0.15); }
+
+  .briefing-output .briefing-text {
+    font-family: 'Merriweather', serif;
+    font-size: 14px;
+    line-height: 1.7;
+    color: #ccd;
+  }
+
+  .briefing-output .briefing-text p {
+    margin-bottom: 10px;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--charcoal);
+    color: #999;
+    text-align: center;
+    padding: 24px;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 12px;
+    letter-spacing: 1px;
+  }
+
+  @media (max-width: 700px) {
+    .two-col, .section-body {
+      grid-template-columns: 1fr;
+    }
+    .hero h1 { font-size: 30px; }
+    .currency-section h2 { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-bar"></div>
+
+<header>
+  <div class="masthead">Principal Currencies</div>
+  <div class="section-label">Finance &amp; Behavioural Economics</div>
+</header>
+
+<div class="container">
+
+  <!-- HERO -->
+  <div class="hero">
+    <h1>The wealth of ages: what people really trade in</h1>
+    <div class="rubric">A comprehensive survey of the non-monetary currencies that dominate human exchange at every stage of life reveals that actual money is a remarkably late entrant to the portfolio</div>
+    <div class="dateline">Feb 16th 2026 &middot; Special Report</div>
+  </div>
+
+  <!-- TWO COL INTRO -->
+  <div class="two-col">
+    <div>
+      <p>Economists have long assumed that rational agents maximise utility through monetary exchange. This assumption, convenient though it is for modelling, ignores what every parent, teenager and retiree already knows: the currencies that matter most are rarely denominated in dollars, euros or yuan. A new index compiled by our research unit identifies seven principal currencies that dominate human transactions across the lifespan, each with its own volatility, liquidity profile and exchange rate.</p>
+      <p>The findings are striking. From the block-based economy of infancy to the time-scarcity markets of old age, Homo sapiens proves far more imaginative in its mediums of exchange than any central banker might credit.</p>
+    </div>
+    <div>
+      <p>The Global Currency Index presented here ranks each instrument by its peak-age deployment, market volatility and overall importance to the bearer. Readers accustomed to tracking sovereign debt or commodity prices may find it instructive&mdash;and perhaps unsettling&mdash;that the currency they spend most of their professional lives accumulating ranks only sixth in our composite measure of lifetime value.</p>
+      <p>What follows is a sector-by-sector analysis of each currency, complete with original data visualisations. As with all Economist special reports, no bylines are attached. The analysis, like the best currencies, speaks for itself.</p>
+    </div>
+  </div>
+
+</div><!-- /container -->
+
+<!-- DATA TABLE -->
+<div class="data-table-section">
+  <div class="container">
+    <div class="section-title">The Economist Intelligence Unit</div>
+    <h2>Global Currency Index</h2>
+    <table class="economist-table">
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Currency</th>
+          <th>Peak Age</th>
+          <th>Volatility</th>
+          <th>Liquidity</th>
+          <th>Overall Score</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td class="currency-name">Time</td>
+          <td>61</td>
+          <td>Low</td>
+          <td>Illiquid</td>
+          <td><span class="score-bar" style="width:94%"></span> 94</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td class="currency-name">Sleep</td>
+          <td>31</td>
+          <td>High</td>
+          <td>Non-transferable</td>
+          <td><span class="score-bar" style="width:89%"></span> 89</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td class="currency-name">Blocks</td>
+          <td>1</td>
+          <td>Moderate</td>
+          <td>Highly liquid</td>
+          <td><span class="score-bar" style="width:82%"></span> 82</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td class="currency-name">Cookies</td>
+          <td>5</td>
+          <td>High</td>
+          <td>Perishable</td>
+          <td><span class="score-bar" style="width:77%"></span> 77</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td class="currency-name">Car Rides</td>
+          <td>16</td>
+          <td>Moderate</td>
+          <td>Geographically bound</td>
+          <td><span class="score-bar" style="width:71%"></span> 71</td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td class="currency-name">Actual Money</td>
+          <td>45</td>
+          <td>Moderate</td>
+          <td>Fully liquid</td>
+          <td><span class="score-bar" style="width:68%"></span> 68</td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td class="currency-name">Lattes</td>
+          <td>25</td>
+          <td>Low</td>
+          <td>Daily turnover</td>
+          <td><span class="score-bar" style="width:63%"></span> 63</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- SECTION 1: BLOCKS -->
+  <div class="currency-section" id="sec-blocks">
+    <div class="section-label">Age 1 &middot; Primary Currency</div>
+    <h2>Building blocks of desire</h2>
+    <div class="sub-rubric">Infant economies run on coloured plastic. The exchange rate is surprisingly stable.</div>
+    <div class="section-body">
+      <div class="text-col">
+        <p>In the first year of life, the dominant medium of exchange is the humble block. Research from the Zurich Institute of Developmental Economics (2024) found that infants aged 8 to 14 months will trade virtually any asset&mdash;pacifiers, plush animals, parental attention&mdash;for a well-coloured wooden block. The market is remarkably efficient.</p>
+        <p>Block liquidity is high: they can be stacked, thrown, tasted and repurposed as percussion instruments. This fungibility gives them a versatility that few adult currencies can match. Central banks might envy such universal acceptance.</p>
+        <div class="pull-quote">
+          "The one-year-old operates in a barter economy of extraordinary sophistication. The block is simultaneously commodity, currency and consumer good."
+          <div class="pq-attr">Developmental Economics Quarterly, Vol. 38</div>
+        </div>
+        <p>Supply-side constraints are minimal. Blocks are mass-produced, durable and resistant to inflation. Unlike fiat currencies, they require no institutional backing&mdash;only a flat surface and gravity.</p>
+      </div>
+      <div class="chart-col">
+        <div class="chart-title">Hours spent playing with blocks, by age</div>
+        <canvas id="chart-blocks" width="440" height="280"></canvas>
+        <div class="chart-source">Source: Zurich Institute of Developmental Economics</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 2: COOKIES -->
+  <div class="currency-section alt-bg" id="sec-cookies">
+    <div class="section-label">Age 5 &middot; Primary Currency</div>
+    <h2>The way the cookie crumbles</h2>
+    <div class="sub-rubric">At five, the biscuit is sovereign. Its dominion is absolute, if caloric.</div>
+    <div class="section-body">
+      <div class="text-col">
+        <p>By the age of five, the block economy has given way to a more volatile commodity market: cookies. The transition, documented in a longitudinal study by the Copenhagen Centre for Behavioural Incentives, typically occurs between ages three and four, as the child's palate develops and sugar receptors reach full operational capacity.</p>
+        <p>The cookie economy is characterised by extreme demand-side pressure and chronic supply restrictions imposed by a regulatory duopoly (parents). This scarcity drives up perceived value and creates what economists call "snack rent-seeking behaviour"&mdash;elaborate negotiations, tactical crying and strategic deployment of the word "please."</p>
+        <p>Cookies also introduce children to the concept of inflation. One cookie today is worth less than one cookie tomorrow if tomorrow is a birthday. Seasonal fluctuations (Halloween, Christmas) create supply gluts that temporarily depress the exchange rate.</p>
+      </div>
+      <div class="chart-col">
+        <div class="chart-title">Cookie consumption trajectory, ages 1-18</div>
+        <canvas id="chart-cookies" width="440" height="280"></canvas>
+        <div class="chart-source">Source: Copenhagen Centre for Behavioural Incentives</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 3: CAR RIDES -->
+  <div class="currency-section" id="sec-car">
+    <div class="section-label">Age 16 &middot; Primary Currency</div>
+    <h2>Driven to distraction</h2>
+    <div class="sub-rubric">Teenagers discover that freedom has four wheels and a learner's permit.</div>
+    <div class="section-body">
+      <div class="text-col">
+        <p>At sixteen, a tectonic shift occurs in the currency markets. The dominant unit of exchange becomes the car ride&mdash;both the promise of one and the threat of its withdrawal. Parents of teenagers, functioning as reluctant central bankers, find themselves issuing and revoking transportation credits with increasing frequency.</p>
+        <p>The car ride represents something no previous currency has offered: spatial liberation. A study by the Tokyo-Stanford Mobility Lab found that perceived life satisfaction among 16-year-olds correlates more strongly with "rides obtained per week" than with any other single variable, including academic performance, social media engagement or pocket money.</p>
+        <div class="pull-quote">
+          "Grounding a teenager is, in monetary-policy terms, the equivalent of freezing their assets. The results are predictably destabilising."
+          <div class="pq-attr">Journal of Adolescent Fiscal Policy</div>
+        </div>
+        <p>The market is geographically segmented. In cities with public transport, car rides trade at a discount. In suburban and rural areas, they command a premium that would make OPEC blush.</p>
+      </div>
+      <div class="chart-col">
+        <div class="chart-title">Mobility freedom index, by age</div>
+        <canvas id="chart-car" width="440" height="280"></canvas>
+        <div class="chart-source">Source: Tokyo-Stanford Mobility Lab</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 4: LATTES -->
+  <div class="currency-section alt-bg" id="sec-lattes">
+    <div class="section-label">Age 25 &middot; Primary Currency</div>
+    <h2>A venti problem</h2>
+    <div class="sub-rubric">The young professional's unit of account: one oat-milk latte, extra shot, no whip.</div>
+    <div class="section-body">
+      <div class="text-col">
+        <p>In one's mid-twenties, a new currency emerges from the froth of post-university life: the latte. This caffeinated instrument serves simultaneously as stimulant, status symbol and unit of temporal measurement ("I'll be there in two lattes"). Its adoption tracks almost perfectly with entry into the professional workforce.</p>
+        <p>The latte economy is remarkably standardised. From Seoul to S&atilde;o Paulo, a latte costs roughly one-thousandth of monthly rent&mdash;a ratio so consistent that the International Coffee Research Collective has proposed it as a purchasing-power-parity benchmark, the "Latte Line," to rival The Economist's own Big Mac Index.</p>
+        <p>Critics note that latte expenditure is regressive, consuming a larger share of income for lower earners. Defenders counter that its utility as a productivity enhancer makes it, in net-present-value terms, an investment rather than an expense.</p>
+      </div>
+      <div class="chart-col">
+        <div class="chart-title">Weekly coffee spending by age bracket, $</div>
+        <canvas id="chart-lattes" width="440" height="280"></canvas>
+        <div class="chart-source">Source: International Coffee Research Collective</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 5: SLEEP -->
+  <div class="currency-section" id="sec-sleep">
+    <div class="section-label">Age 31 &middot; Primary Currency</div>
+    <h2>The rest is history</h2>
+    <div class="sub-rubric">New parents discover sleep's true exchange rate the hard way. Spoiler: it is priceless.</div>
+    <div class="section-body">
+      <div class="text-col">
+        <p>At thirty-one&mdash;the average age of first parenthood across the OECD&mdash;a currency that was once abundant becomes scarce beyond reckoning. Sleep, previously taken for granted like oxygen or Wi-Fi, undergoes a supply shock of historic proportions. Its exchange rate against all other currencies surges overnight (or, more precisely, during the night).</p>
+        <p>The McKinsey Global Sleep Deficit Report (2025) estimates that new parents lose an average of 44 days of sleep in their child's first year. In economic terms, this represents the single largest involuntary asset forfeiture in civilian life.</p>
+        <div class="pull-quote">
+          "A new parent would trade a promotion, a holiday, possibly a minor limb, for eight uninterrupted hours. The market clears at extraordinary prices."
+          <div class="pq-attr">McKinsey Global Sleep Deficit Report</div>
+        </div>
+        <p>Sleep is also unique among currencies in that it cannot be banked, transferred or borrowed. One cannot sleep on another's behalf, making it the most radically non-fungible of all assets.</p>
+      </div>
+      <div class="chart-col">
+        <div class="chart-title">Average hours slept per night, by decade of life</div>
+        <canvas id="chart-sleep" width="440" height="280"></canvas>
+        <div class="chart-source">Source: McKinsey Global Sleep Deficit Report</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 6: MONEY -->
+  <div class="currency-section alt-bg" id="sec-money">
+    <div class="section-label">Age 45 &middot; Primary Currency</div>
+    <h2>Legal, but tender</h2>
+    <div class="sub-rubric">At last, actual money takes centre stage. Its reign is shorter than you might think.</div>
+    <div class="section-body">
+      <div class="text-col">
+        <p>It is one of the great ironies of human development that the currency most universally recognised as "real" does not become the dominant medium of exchange until age 45. By this point, the average person has already spent four decades trading in blocks, cookies, rides, caffeine and sleep&mdash;and has done rather well without a Bloomberg terminal.</p>
+        <p>The peak-money years, roughly 40 to 55, are characterised by what behavioural economists call "mortgage salience"&mdash;the period when financial obligations become large enough to dominate decision-making. University fees, property costs and retirement planning converge to make cash flow the primary metric of existential wellbeing.</p>
+        <p>Yet even at its zenith, money's dominance is contested. A Gallup survey of 142 countries found that respondents aged 45-54 ranked "time with family" above "additional income" by a margin of 22 percentage points. The money supply, it seems, is never quite sufficient to purchase what people actually want.</p>
+      </div>
+      <div class="chart-col">
+        <div class="chart-title">Financial priorities by age, % of respondents</div>
+        <canvas id="chart-money" width="440" height="280"></canvas>
+        <div class="chart-source">Source: Gallup World Values Survey</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 7: TIME -->
+  <div class="currency-section" id="sec-time">
+    <div class="section-label">Age 61 &middot; Primary Currency</div>
+    <h2>Time after time</h2>
+    <div class="sub-rubric">The final currency is the one that was there all along&mdash;diminishing, irreplaceable, and finally understood.</div>
+    <div class="section-body">
+      <div class="text-col">
+        <p>In the seventh decade, a remarkable repricing occurs. Time, which youth squanders with the abandon of a drunken sailor in a port town, becomes the reserve currency of the human condition. Retirees and near-retirees report, with striking consistency across cultures, that time is the only asset they truly wish to accumulate.</p>
+        <p>The dynamics are cruel but instructive. As the balance of available time shrinks, its marginal value rises exponentially. A 2025 study by the Oxford Institute of Temporal Economics found that perceived value of an hour rises by approximately 3.2% per year after age 55&mdash;a rate of appreciation that would make any portfolio manager weep with envy.</p>
+        <div class="pull-quote">
+          "In the end, the greatest currency is the one no central bank can print, no market can trade and no government can tax. Time is the gold standard of human existence."
+          <div class="pq-attr">Oxford Institute of Temporal Economics</div>
+        </div>
+        <p>Unlike every other currency in our index, time is deflationary by nature. The supply contracts daily, and there is no mechanism for quantitative easing. It is, in the final analysis, the only currency whose scarcity is guaranteed.</p>
+      </div>
+      <div class="chart-col">
+        <div class="chart-title">Perceived time remaining, indexed (age 20 = 100)</div>
+        <canvas id="chart-time" width="440" height="280"></canvas>
+        <div class="chart-source">Source: Oxford Institute of Temporal Economics</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /container -->
+
+<!-- EIU INTERACTIVE -->
+<div class="eiu-section">
+  <div class="container">
+    <div class="eiu-label">The Economist Intelligence Unit</div>
+    <h2>Personal currency briefing</h2>
+    <div class="eiu-rubric">Enter your age to receive a bespoke analyst briefing on your current dominant currency, including outlook and confidence rating.</div>
+    <div class="eiu-form">
+      <label for="age-input">Your age:</label>
+      <input type="number" id="age-input" min="0" max="120" placeholder="e.g. 33">
+      <button id="briefing-btn">Generate Briefing</button>
+    </div>
+    <div class="briefing-output" id="briefing-output"></div>
+  </div>
+</div>
+
+<footer>
+  <div class="container">
+    &copy; 2026 &middot; A playful homage to The Economist's design and editorial voice &middot; Not affiliated with The Economist Group
+  </div>
+</footer>
+
+<script>
+(function() {
+
+  // ====================
+  // CHART UTILITIES
+  // ====================
+  const COLORS = {
+    red: '#E3120B',
+    navy: '#1D2B35',
+    blue: '#3B7DD8',
+    gray: '#999',
+    lightGray: '#ddd',
+    areaRed: 'rgba(227,18,11,0.15)',
+    areaBlue: 'rgba(59,125,216,0.15)',
+    areaNavy: 'rgba(29,43,53,0.12)'
+  };
+
+  function getCtx(id) {
+    const c = document.getElementById(id);
+    const dpr = window.devicePixelRatio || 1;
+    const rect = c.getBoundingClientRect();
+    c.width = c.getAttribute('width') * dpr;
+    c.height = c.getAttribute('height') * dpr;
+    const ctx = c.getContext('2d');
+    ctx.scale(dpr, dpr);
+    c.style.width = c.getAttribute('width') / dpr + 'px';
+    // Reset to logical size for drawing
+    const W = +c.getAttribute('width') / dpr;
+    const H = +c.getAttribute('height') / dpr;
+    return { ctx, W, H };
+  }
+
+  // We'll use fixed logical size for simplicity
+  function setupCanvas(id) {
+    const c = document.getElementById(id);
+    const W = 440, H = 280;
+    const dpr = window.devicePixelRatio || 1;
+    c.width = W * dpr;
+    c.height = H * dpr;
+    c.style.width = W + 'px';
+    c.style.height = H + 'px';
+    const ctx = c.getContext('2d');
+    ctx.scale(dpr, dpr);
+    return { ctx, W, H };
+  }
+
+  const PAD = { top: 20, right: 20, bottom: 40, left: 46 };
+
+  function drawGridAndAxes(ctx, W, H, xLabels, yMin, yMax, ySteps) {
+    const plotW = W - PAD.left - PAD.right;
+    const plotH = H - PAD.top - PAD.bottom;
+
+    ctx.strokeStyle = COLORS.lightGray;
+    ctx.lineWidth = 0.5;
+    ctx.font = '10px Source Sans 3, sans-serif';
+    ctx.fillStyle = COLORS.gray;
+    ctx.textAlign = 'right';
+
+    for (let i = 0; i <= ySteps; i++) {
+      const val = yMin + (yMax - yMin) * i / ySteps;
+      const y = PAD.top + plotH - (plotH * i / ySteps);
+      ctx.beginPath();
+      ctx.moveTo(PAD.left, y);
+      ctx.lineTo(W - PAD.right, y);
+      ctx.stroke();
+      ctx.fillText(Math.round(val * 10) / 10, PAD.left - 6, y + 3);
+    }
+
+    // x labels
+    ctx.textAlign = 'center';
+    ctx.fillStyle = COLORS.gray;
+    for (let i = 0; i < xLabels.length; i++) {
+      const x = PAD.left + (plotW * i / (xLabels.length - 1));
+      ctx.fillText(xLabels[i], x, H - PAD.bottom + 16);
+    }
+
+    // Baseline
+    ctx.strokeStyle = COLORS.navy;
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(PAD.left, PAD.top + plotH);
+    ctx.lineTo(W - PAD.right, PAD.top + plotH);
+    ctx.stroke();
+
+    return { plotW, plotH };
+  }
+
+  function valToY(val, yMin, yMax, plotH) {
+    return PAD.top + plotH - (plotH * (val - yMin) / (yMax - yMin));
+  }
+
+  function idxToX(i, count, plotW) {
+    return PAD.left + (plotW * i / (count - 1));
+  }
+
+  // ====================
+  // CHART 1: BLOCKS (bar chart)
+  // ====================
+  function drawBlocksChart() {
+    const { ctx, W, H } = setupCanvas('chart-blocks');
+    const ages = ['0-1', '1-2', '2-3', '3-4', '4-5', '5-6', '6-7', '7-8'];
+    const values = [1.2, 3.8, 3.2, 2.5, 1.8, 1.0, 0.5, 0.2];
+    const yMax = 4.5, yMin = 0, ySteps = 5;
+    const { plotW, plotH } = drawGridAndAxes(ctx, W, H, ages, yMin, yMax, ySteps);
+
+    const barW = plotW / ages.length * 0.65;
+    const gap = plotW / ages.length;
+
+    for (let i = 0; i < values.length; i++) {
+      const x = PAD.left + gap * i + (gap - barW) / 2;
+      const barH = plotH * (values[i] / yMax);
+      const y = PAD.top + plotH - barH;
+      ctx.fillStyle = i === 1 ? COLORS.red : COLORS.navy;
+      ctx.fillRect(x, y, barW, barH);
+    }
+
+    // Annotation
+    ctx.font = 'bold 10px Source Sans 3, sans-serif';
+    ctx.fillStyle = COLORS.red;
+    ctx.textAlign = 'center';
+    ctx.fillText('Peak', PAD.left + gap * 1 + gap / 2, PAD.top + plotH - plotH * (3.8/4.5) - 6);
+  }
+
+  // ====================
+  // CHART 2: COOKIES (line chart)
+  // ====================
+  function drawCookiesChart() {
+    const { ctx, W, H } = setupCanvas('chart-cookies');
+    const ages = ['1','3','5','7','9','11','13','15','18'];
+    const values = [0.5, 2.8, 5.0, 4.5, 3.8, 3.0, 2.2, 1.8, 1.2];
+    const yMax = 6, yMin = 0, ySteps = 6;
+    const { plotW, plotH } = drawGridAndAxes(ctx, W, H, ages, yMin, yMax, ySteps);
+    const n = values.length;
+
+    // Line
+    ctx.beginPath();
+    ctx.strokeStyle = COLORS.red;
+    ctx.lineWidth = 2.5;
+    for (let i = 0; i < n; i++) {
+      const x = idxToX(i, n, plotW);
+      const y = valToY(values[i], yMin, yMax, plotH);
+      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+
+    // Dots
+    for (let i = 0; i < n; i++) {
+      const x = idxToX(i, n, plotW);
+      const y = valToY(values[i], yMin, yMax, plotH);
+      ctx.beginPath();
+      ctx.arc(x, y, i === 2 ? 5 : 3, 0, Math.PI * 2);
+      ctx.fillStyle = i === 2 ? COLORS.red : COLORS.navy;
+      ctx.fill();
+    }
+
+    ctx.font = 'bold 10px Source Sans 3, sans-serif';
+    ctx.fillStyle = COLORS.red;
+    ctx.textAlign = 'left';
+    ctx.fillText('Age 5: peak cookie', idxToX(2, n, plotW) + 8, valToY(values[2], yMin, yMax, plotH) - 4);
+  }
+
+  // ====================
+  // CHART 3: CAR RIDES (area chart)
+  // ====================
+  function drawCarChart() {
+    const { ctx, W, H } = setupCanvas('chart-car');
+    const ages = ['10','13','16','18','21','25','30','40','50'];
+    const values = [5, 12, 62, 80, 88, 92, 90, 85, 78];
+    const yMax = 100, yMin = 0, ySteps = 5;
+    const { plotW, plotH } = drawGridAndAxes(ctx, W, H, ages, yMin, yMax, ySteps);
+    const n = values.length;
+
+    // Area
+    ctx.beginPath();
+    ctx.moveTo(idxToX(0, n, plotW), PAD.top + plotH);
+    for (let i = 0; i < n; i++) {
+      ctx.lineTo(idxToX(i, n, plotW), valToY(values[i], yMin, yMax, plotH));
+    }
+    ctx.lineTo(idxToX(n - 1, n, plotW), PAD.top + plotH);
+    ctx.closePath();
+    ctx.fillStyle = COLORS.areaBlue;
+    ctx.fill();
+
+    // Line
+    ctx.beginPath();
+    ctx.strokeStyle = COLORS.blue;
+    ctx.lineWidth = 2.5;
+    for (let i = 0; i < n; i++) {
+      const x = idxToX(i, n, plotW);
+      const y = valToY(values[i], yMin, yMax, plotH);
+      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+
+    // Highlight age 16
+    const x16 = idxToX(2, n, plotW);
+    const y16 = valToY(values[2], yMin, yMax, plotH);
+    ctx.setLineDash([3, 3]);
+    ctx.strokeStyle = COLORS.red;
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(x16, PAD.top + plotH);
+    ctx.lineTo(x16, y16);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    ctx.beginPath();
+    ctx.arc(x16, y16, 4, 0, Math.PI * 2);
+    ctx.fillStyle = COLORS.red;
+    ctx.fill();
+
+    ctx.font = 'bold 10px Source Sans 3, sans-serif';
+    ctx.fillStyle = COLORS.red;
+    ctx.textAlign = 'left';
+    ctx.fillText('Learner permit', x16 + 6, y16 - 6);
+  }
+
+  // ====================
+  // CHART 4: LATTES (bar chart)
+  // ====================
+  function drawLattesChart() {
+    const { ctx, W, H } = setupCanvas('chart-lattes');
+    const ages = ['18-22','23-27','28-32','33-37','38-42','43-50','51-60','61+'];
+    const values = [12, 32, 28, 24, 22, 18, 14, 8];
+    const yMax = 36, yMin = 0, ySteps = 6;
+    const { plotW, plotH } = drawGridAndAxes(ctx, W, H, ages, yMin, yMax, ySteps);
+
+    const gap = plotW / ages.length;
+    const barW = gap * 0.6;
+
+    for (let i = 0; i < values.length; i++) {
+      const x = PAD.left + gap * i + (gap - barW) / 2;
+      const barH = plotH * (values[i] / yMax);
+      const y = PAD.top + plotH - barH;
+      ctx.fillStyle = i === 1 ? COLORS.red : COLORS.blue;
+      ctx.fillRect(x, y, barW, barH);
+    }
+
+    ctx.font = 'bold 10px Source Sans 3, sans-serif';
+    ctx.fillStyle = COLORS.red;
+    ctx.textAlign = 'center';
+    ctx.fillText('$32/wk', PAD.left + gap * 1 + gap / 2, PAD.top + plotH - plotH * (32/36) - 6);
+  }
+
+  // ====================
+  // CHART 5: SLEEP (line chart)
+  // ====================
+  function drawSleepChart() {
+    const { ctx, W, H } = setupCanvas('chart-sleep');
+    const ages = ['0s','10s','20s','30s','40s','50s','60s','70s','80s'];
+    const values = [14, 9.5, 7.8, 6.2, 6.5, 6.8, 7.0, 7.5, 8.2];
+    const yMax = 16, yMin = 4, ySteps = 6;
+    const { plotW, plotH } = drawGridAndAxes(ctx, W, H, ages, yMin, yMax, ySteps);
+    const n = values.length;
+
+    ctx.beginPath();
+    ctx.strokeStyle = COLORS.navy;
+    ctx.lineWidth = 2.5;
+    for (let i = 0; i < n; i++) {
+      const x = idxToX(i, n, plotW);
+      const y = valToY(values[i], yMin, yMax, plotH);
+      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+
+    // Dots and trough annotation
+    for (let i = 0; i < n; i++) {
+      const x = idxToX(i, n, plotW);
+      const y = valToY(values[i], yMin, yMax, plotH);
+      ctx.beginPath();
+      ctx.arc(x, y, i === 3 ? 5 : 3, 0, Math.PI * 2);
+      ctx.fillStyle = i === 3 ? COLORS.red : COLORS.navy;
+      ctx.fill();
+    }
+
+    // Red zone highlight
+    const x30 = idxToX(3, n, plotW);
+    const y30 = valToY(values[3], yMin, yMax, plotH);
+    ctx.font = 'bold 10px Source Sans 3, sans-serif';
+    ctx.fillStyle = COLORS.red;
+    ctx.textAlign = 'left';
+    ctx.fillText('Sleep crisis (6.2h)', x30 + 6, y30 - 6);
+  }
+
+  // ====================
+  // CHART 6: MONEY (stacked area)
+  // ====================
+  function drawMoneyChart() {
+    const { ctx, W, H } = setupCanvas('chart-money');
+    const ages = ['20','25','30','35','40','45','50','55','60','65'];
+    const savings = [5, 8, 12, 18, 28, 35, 38, 32, 25, 15];
+    const housing = [15, 22, 30, 32, 28, 25, 20, 15, 10, 5];
+    const family  = [2, 5, 15, 20, 22, 20, 15, 10, 5, 2];
+    const yMax = 80, yMin = 0, ySteps = 4;
+    const { plotW, plotH } = drawGridAndAxes(ctx, W, H, ages, yMin, yMax, ySteps);
+    const n = ages.length;
+
+    function stackY(arr1, arr2, arr3, i) {
+      return arr1[i] + (arr2 ? arr2[i] : 0) + (arr3 ? arr3[i] : 0);
+    }
+
+    // Layer 3 (family on top)
+    ctx.beginPath();
+    ctx.moveTo(idxToX(0, n, plotW), PAD.top + plotH);
+    for (let i = 0; i < n; i++) {
+      ctx.lineTo(idxToX(i, n, plotW), valToY(stackY(savings, housing, family, i), yMin, yMax, plotH));
+    }
+    for (let i = n - 1; i >= 0; i--) {
+      ctx.lineTo(idxToX(i, n, plotW), valToY(stackY(savings, housing, null, i), yMin, yMax, plotH));
+    }
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(153,153,153,0.35)';
+    ctx.fill();
+
+    // Layer 2 (housing)
+    ctx.beginPath();
+    ctx.moveTo(idxToX(0, n, plotW), PAD.top + plotH);
+    for (let i = 0; i < n; i++) {
+      ctx.lineTo(idxToX(i, n, plotW), valToY(stackY(savings, housing, null, i), yMin, yMax, plotH));
+    }
+    for (let i = n - 1; i >= 0; i--) {
+      ctx.lineTo(idxToX(i, n, plotW), valToY(savings[i], yMin, yMax, plotH));
+    }
+    ctx.closePath();
+    ctx.fillStyle = COLORS.areaBlue;
+    ctx.fill();
+
+    // Layer 1 (savings)
+    ctx.beginPath();
+    ctx.moveTo(idxToX(0, n, plotW), PAD.top + plotH);
+    for (let i = 0; i < n; i++) {
+      ctx.lineTo(idxToX(i, n, plotW), valToY(savings[i], yMin, yMax, plotH));
+    }
+    ctx.lineTo(idxToX(n - 1, n, plotW), PAD.top + plotH);
+    ctx.closePath();
+    ctx.fillStyle = COLORS.areaRed;
+    ctx.fill();
+
+    // Top lines
+    ctx.strokeStyle = COLORS.gray;
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    for (let i = 0; i < n; i++) {
+      const x = idxToX(i, n, plotW);
+      i === 0 ? ctx.moveTo(x, valToY(stackY(savings, housing, family, i), yMin, yMax, plotH)) : ctx.lineTo(x, valToY(stackY(savings, housing, family, i), yMin, yMax, plotH));
+    }
+    ctx.stroke();
+
+    ctx.strokeStyle = COLORS.blue;
+    ctx.beginPath();
+    for (let i = 0; i < n; i++) {
+      const x = idxToX(i, n, plotW);
+      i === 0 ? ctx.moveTo(x, valToY(stackY(savings, housing, null, i), yMin, yMax, plotH)) : ctx.lineTo(x, valToY(stackY(savings, housing, null, i), yMin, yMax, plotH));
+    }
+    ctx.stroke();
+
+    ctx.strokeStyle = COLORS.red;
+    ctx.beginPath();
+    for (let i = 0; i < n; i++) {
+      const x = idxToX(i, n, plotW);
+      i === 0 ? ctx.moveTo(x, valToY(savings[i], yMin, yMax, plotH)) : ctx.lineTo(x, valToY(savings[i], yMin, yMax, plotH));
+    }
+    ctx.stroke();
+
+    // Legend
+    const lx = PAD.left + 8;
+    const ly = PAD.top + 6;
+    ctx.font = '10px Source Sans 3, sans-serif';
+    [[COLORS.red, 'Savings/retirement'], [COLORS.blue, 'Housing'], ['#999', 'Family costs']].forEach(function(item, i) {
+      ctx.fillStyle = item[0];
+      ctx.fillRect(lx, ly + i * 14, 10, 10);
+      ctx.fillStyle = COLORS.navy;
+      ctx.textAlign = 'left';
+      ctx.fillText(item[1], lx + 14, ly + i * 14 + 9);
+    });
+  }
+
+  // ====================
+  // CHART 7: TIME (declining line)
+  // ====================
+  function drawTimeChart() {
+    const { ctx, W, H } = setupCanvas('chart-time');
+    const ages = ['20','30','40','50','60','70','80','90'];
+    const values = [100, 82, 65, 48, 33, 20, 10, 3];
+    const yMax = 110, yMin = 0, ySteps = 5;
+    const { plotW, plotH } = drawGridAndAxes(ctx, W, H, ages, yMin, yMax, ySteps);
+    const n = values.length;
+
+    // Area under curve
+    ctx.beginPath();
+    ctx.moveTo(idxToX(0, n, plotW), PAD.top + plotH);
+    for (let i = 0; i < n; i++) {
+      ctx.lineTo(idxToX(i, n, plotW), valToY(values[i], yMin, yMax, plotH));
+    }
+    ctx.lineTo(idxToX(n - 1, n, plotW), PAD.top + plotH);
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(227,18,11,0.08)';
+    ctx.fill();
+
+    // Line
+    ctx.beginPath();
+    ctx.strokeStyle = COLORS.red;
+    ctx.lineWidth = 2.5;
+    for (let i = 0; i < n; i++) {
+      const x = idxToX(i, n, plotW);
+      const y = valToY(values[i], yMin, yMax, plotH);
+      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+
+    // Dots
+    for (let i = 0; i < n; i++) {
+      ctx.beginPath();
+      ctx.arc(idxToX(i, n, plotW), valToY(values[i], yMin, yMax, plotH), 3, 0, Math.PI * 2);
+      ctx.fillStyle = COLORS.red;
+      ctx.fill();
+    }
+
+    // Annotation
+    ctx.font = 'italic 10px Source Sans 3, sans-serif';
+    ctx.fillStyle = COLORS.navy;
+    ctx.textAlign = 'right';
+    ctx.fillText('Irreversible decline', W - PAD.right - 4, PAD.top + 14);
+  }
+
+  // ====================
+  // DRAW ALL CHARTS
+  // ====================
+  drawBlocksChart();
+  drawCookiesChart();
+  drawCarChart();
+  drawLattesChart();
+  drawSleepChart();
+  drawMoneyChart();
+  drawTimeChart();
+
+  // ====================
+  // SCROLL FADE-IN
+  // ====================
+  function onScroll() {
+    var sections = document.querySelectorAll('.currency-section');
+    for (var i = 0; i < sections.length; i++) {
+      var rect = sections[i].getBoundingClientRect();
+      if (rect.top < window.innerHeight - 80) {
+        sections[i].classList.add('visible');
+      }
+    }
+  }
+  window.addEventListener('scroll', onScroll);
+  onScroll();
+
+  // ====================
+  // EIU BRIEFING
+  // ====================
+  var briefings = [
+    { maxAge: 2, currency: 'Blocks', outlook: 'bullish', outlookClass: 'bullish', confidence: 92,
+      text: '<p>Your dominant currency is <strong>blocks</strong>. Market conditions are highly favourable. Supply chains are robust (parents, grandparents, well-meaning neighbours), and demand shows no signs of abating. Block reserves are typically at all-time highs, with new deposits arriving on birthdays and holidays.</p><p><strong>Analyst note:</strong> We rate this currency BUY. The block economy is characterised by low volatility and high emotional returns. Risk factors include choking hazards and parental fatigue, but fundamentals remain strong.</p>' },
+    { maxAge: 10, currency: 'Cookies', outlook: 'bullish', outlookClass: 'bullish', confidence: 85,
+      text: '<p>Your primary medium of exchange is <strong>cookies</strong>. The market is liquid, if crumbly. Your negotiating leverage with suppliers (parents, teachers) is near its peak, and diversification into brownies and ice cream provides a hedge against cookie-specific supply shocks.</p><p><strong>Analyst note:</strong> Outlook is positive but monitor regulatory risk. Dental check-ups and parental health concerns represent the primary headwinds. We recommend building strategic reserves before Halloween.</p>' },
+    { maxAge: 17, currency: 'Car Rides', outlook: 'bullish', outlookClass: 'bullish', confidence: 78,
+      text: '<p>You are heavily invested in <strong>car rides</strong>. This currency is appreciating rapidly as your mobility needs outstrip available supply. The market is characterised by monopsony (one supplier, typically a parent with a minivan) and acute information asymmetry (they do not know where you actually want to go).</p><p><strong>Analyst note:</strong> We rate this currency ACCUMULATE. The impending arrival of a driver licence represents a transformative liquidity event. Short-term volatility is high due to grounding risk.</p>' },
+    { maxAge: 29, currency: 'Lattes', outlook: 'stable', outlookClass: 'stable', confidence: 81,
+      text: '<p>Your dominant currency is the <strong>latte</strong>. You are in the peak consumption years for this caffeinated instrument. Daily turnover is high, and the currency serves dual functions as both stimulant and social signifier. Your portfolio is heavily concentrated in oat milk futures.</p><p><strong>Analyst note:</strong> We rate the outlook STABLE. The latte economy is mature and well-understood. Primary risk factor: the emergence of a sourdough or matcha substitute currency. Maintain current positions.</p>' },
+    { maxAge: 40, currency: 'Sleep', outlook: 'bearish', outlookClass: 'bearish', confidence: 94,
+      text: '<p>Your reserve currency is <strong>sleep</strong>&mdash;and your reserves are critically depleted. Whether due to young children, career demands or the siren call of late-night screen time, your sleep balance sheet is in deep deficit. This is the single most supply-constrained period in your currency lifecycle.</p><p><strong>Analyst note:</strong> SELL everything else and BUY sleep. This is not a drill. The sleep deficit compounds at punishing rates, and there is no mechanism for a bailout. Naps are the fiscal equivalent of emergency bridge financing.</p>' },
+    { maxAge: 55, currency: 'Actual Money', outlook: 'stable', outlookClass: 'stable', confidence: 88,
+      text: '<p>You are in the <strong>actual money</strong> zone&mdash;the only period in which conventional economists would recognise your behaviour as rational. Cash flow dominates your decision-making as mortgage payments, education costs and retirement planning converge. You are, at last, a textbook economic agent.</p><p><strong>Analyst note:</strong> Outlook is STABLE with upside potential. You are at peak earning capacity. The primary risk is an impending currency transition toward time, which the market is already pricing in via Sunday-evening existential dread.</p>' },
+    { maxAge: 120, currency: 'Time', outlook: 'bearish', outlookClass: 'bearish', confidence: 97,
+      text: '<p>Your dominant currency is <strong>time</strong>&mdash;the ultimate non-renewable resource. You have reached the stage where the marginal value of an hour exceeds that of virtually any sum of money. This repricing is both economically rational and philosophically devastating.</p><p><strong>Analyst note:</strong> The supply outlook is BEARISH by definition. There is no quantitative easing available for this currency. We recommend aggressive deployment of existing time reserves into high-yield activities: relationships, experiences, long lunches and unhurried walks. Do not hoard.</p>' }
+  ];
+
+  document.getElementById('briefing-btn').addEventListener('click', function() {
+    var age = parseInt(document.getElementById('age-input').value);
+    if (isNaN(age) || age < 0 || age > 120) {
+      alert('Please enter a valid age between 0 and 120.');
+      return;
+    }
+
+    var b = null;
+    for (var i = 0; i < briefings.length; i++) {
+      if (age <= briefings[i].maxAge) { b = briefings[i]; break; }
+    }
+    if (!b) b = briefings[briefings.length - 1];
+
+    var out = document.getElementById('briefing-output');
+    out.style.display = 'block';
+    out.innerHTML =
+      '<h3>Analyst Briefing: Age ' + age + '</h3>' +
+      '<div class="outlook">' +
+        '<span class="' + b.outlookClass + '">Outlook: ' + b.outlook.toUpperCase() + '</span>' +
+        '<span class="confidence">Confidence: ' + b.confidence + '%</span>' +
+        '<span style="background:rgba(255,255,255,0.08)">Primary currency: ' + b.currency + '</span>' +
+      '</div>' +
+      '<div class="briefing-text">' + b.text + '</div>';
+  });
+
+})();
+</script>
+
+</body>
+</html>
